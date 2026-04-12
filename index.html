@@ -2,164 +2,239 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="レギュレーションM-A タイプ相性マップ">
-<meta property="og:description" content="PJCS2026予選環境トップ10のタイプ相性ネットワーク（2026-04-11時点）">
-<title>レギュレーションM-A タイプ相性マップ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta property="og:title" content="レギュM-A 戦略ボード">
+<meta property="og:description" content="じぇらーるメモ発 環境考察タイムライン（随時更新）">
+<title>レギュM-A 戦略ボード</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#fafaf8;--bg2:#f1efe8;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;--red:#E24B4A;--purple:#534AB7;--info-bg:#E6F1FB;--info-text:#0C447C;--danger-bg:#FCEBEB;--danger-text:#791F1F;--warn-bg:#FAEEDA;--warn-text:#633806}
-@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;--red:#F09595;--purple:#AFA9EC;--info-bg:#042C53;--info-text:#85B7EB;--danger-bg:#501313;--danger-text:#F09595;--warn-bg:#412402;--warn-text:#FAC775}}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:900px;margin:0 auto;padding:16px}
-h1{font-size:18px;font-weight:500;margin-bottom:4px}
-.sub{font-size:12px;color:var(--text3);margin-bottom:12px}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--text2);margin-bottom:8px}
-.legend span{display:inline-flex;align-items:center;gap:4px}
-.line4{width:18px;height:3px;background:var(--red);display:inline-block}
-.line2{width:18px;height:2px;background:var(--purple);display:inline-block}
-#wrap{position:relative;width:100%;height:min(540px,70vw);margin-bottom:16px}
-canvas{position:absolute;top:0;left:0;width:100%;height:100%}
-#info{min-height:36px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;padding:8px 12px;background:var(--bg2);border-radius:8px}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.card{background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:10px 14px}
-.card-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.card-hdr img{width:32px;height:32px;image-rendering:pixelated}
-.card-name{font-weight:500;font-size:13px}
-.card-types{font-size:11px;color:var(--text3)}
-.badges{margin-left:auto;display:flex;gap:4px}
-.badge{font-size:11px;padding:2px 8px;border-radius:8px}
-.b-atk{background:var(--info-bg);color:var(--info-text)}
-.b-def{background:var(--danger-bg);color:var(--danger-text)}
-.sec-label{font-size:11px;color:var(--text2);margin-bottom:3px}
-.tags{display:flex;flex-wrap:wrap;margin-bottom:6px}
-.tag{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:2px 8px;border-radius:8px;margin:2px 4px 2px 0}
-.tag-atk{background:var(--info-bg);color:var(--info-text)}
-.tag-atk4{background:var(--danger-bg);color:var(--danger-text)}
-.tag-def{background:var(--warn-bg);color:var(--warn-text)}
-.tag-def4{background:var(--danger-bg);color:var(--danger-text)}
-.tag .via{opacity:0.7}
+:root{--bg:#fafaf8;--bg2:#f1efe8;--bg3:#e8e6df;--card:#fff;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;
+--s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;--e:#B4B2A9;
+--up-bg:#EAF3DE;--up-text:#27500A;--down-bg:#FCEBEB;--down-text:#791F1F;--new-bg:#E6F1FB;--new-text:#0C447C;--hot-bg:#FAEEDA;--hot-text:#633806;
+--purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
+--recommend-bg:#E1F5EE;--recommend-text:#085041}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--bg3:#3a3a37;--card:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;
+--s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;--e:#B4B2A9;
+--up-bg:#173404;--up-text:#C0DD97;--down-bg:#501313;--down-text:#F09595;--new-bg:#042C53;--new-text:#85B7EB;--hot-bg:#412402;--hot-text:#FAC775;
+--purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
+--recommend-bg:#04342C;--recommend-text:#9FE1CB}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans",sans-serif;max-width:860px;margin:0 auto;padding:20px 16px}
+h1{font-size:20px;font-weight:500;margin-bottom:2px}
+.subtitle{font-size:12px;color:var(--text3);margin-bottom:20px}
+.section-title{font-size:16px;font-weight:500;margin:28px 0 12px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1.5px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-dot{position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--purple);background:var(--bg)}
+.tl-dot.active{background:var(--purple)}
+.tl-date{font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:500}
+.tl-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:12px 16px}
+.tl-source{font-size:11px;color:var(--purple-text);background:var(--purple-bg);display:inline-block;padding:2px 8px;border-radius:6px;margin-bottom:6px}
+.tl-body{font-size:13px;line-height:1.7;color:var(--text)}
+.tl-body strong{font-weight:500}
+.tier-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.tier-badge{flex-shrink:0;width:28px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#fff}
+.tier-s{background:var(--s)}.tier-a{background:var(--a)}.tier-b{background:var(--b)}.tier-c{background:var(--c)}.tier-d{background:var(--d)}
+.tier-mons{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.mon{font-size:12px;background:var(--bg2);color:var(--text2);padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:3px}
+.mon.highlight{background:var(--hot-bg);color:var(--hot-text)}
+.trend-tag{font-size:10px;padding:1px 5px;border-radius:4px;margin-left:2px}
+.trend-up{background:var(--up-bg);color:var(--up-text)}
+.trend-new{background:var(--new-bg);color:var(--new-text)}
+.trend-hot{background:var(--hot-bg);color:var(--hot-text)}
+.recommend-box{background:var(--recommend-bg);color:var(--recommend-text);border-radius:12px;padding:14px 18px;margin:12px 0}
+.recommend-box .label{font-size:11px;font-weight:500;margin-bottom:6px}
+.recommend-box .content{font-size:13px;line-height:1.7}
+.team-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:8px}
+.team-title{font-size:13px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.team-mons{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
+.team-note{font-size:12px;color:var(--text2);line-height:1.6}
+.meta-shift{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.shift-card{background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:10px 14px}
+.shift-label{font-size:11px;color:var(--text3);margin-bottom:4px}
+.shift-items{display:flex;flex-wrap:wrap;gap:4px}
+.key-insight{background:var(--bg2);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7;color:var(--text2)}
+.key-insight strong{color:var(--text);font-weight:500}
+.rating-bar{display:flex;align-items:center;gap:6px;margin:3px 0}
+.rating-bar .name{font-size:12px;color:var(--text2);width:90px;text-align:right;flex-shrink:0}
+.rating-bar .bar-wrap{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.rating-bar .bar{height:100%;border-radius:3px}
+.rating-bar .val{font-size:11px;color:var(--text3);width:28px}
+.footer{font-size:11px;color:var(--text3);text-align:center;margin-top:32px;padding-top:12px;border-top:0.5px solid var(--border)}
 </style>
 </head>
 <body>
-<h1>レギュレーションM-A タイプ相性マップ</h1>
-<p class="sub">PJCS2026予選環境トップ10 ｜ 2026-04-11時点 ｜ ノードをクリックでハイライト</p>
-<div class="legend">
-  <span><span class="line4"></span>4x 弱点</span>
-  <span><span class="line2"></span>2x 弱点</span>
+
+<h1>レギュM-A 戦略ボード</h1>
+<p class="subtitle">ソース: #じぇらーるメモ ｜ 最終更新: 2026-04-12 ｜ シーズンM-1（4/8〜5/13）</p>
+
+<div class="recommend-box">
+  <div class="label">PJCS2026予選に向けた推奨軸（ジュニア・シニア向け）</div>
+  <div class="content">
+    <strong>メガフラエッテ</strong> と <strong>メガリザードン</strong> を軸に練習すること強く推奨。<br>
+    理由: 簡単でパワーが高く、運が良ければ負けることがなさすぎる。マフォクシー・ゲンガー・ユキメノコも強いがテクニック要求が高い。
+  </div>
 </div>
-<div id="wrap"><canvas id="cv"></canvas></div>
-<div id="info">ポケモンをクリックすると攻撃有利・被弱点がハイライトされます</div>
-<div class="cards" id="cards"></div>
-<p style="font-size:11px;color:var(--text3);margin-top:16px;text-align:center;">Pokémon Champions レギュレーションM-A ダブルバトル環境考察</p>
-<script>
-const nodes=[
-{id:0,name:"オオニューラ",types:"かくとう/どく",dex:903},
-{id:1,name:"メガフラエッテ",types:"フェアリー",dex:670},
-{id:2,name:"ガオガエン",types:"ほのお/あく",dex:727},
-{id:3,name:"ドドゲザン",types:"あく/はがね",dex:983},
-{id:4,name:"プテラ",types:"いわ/ひこう",dex:142},
-{id:5,name:"ヤバソチャ",types:"くさ/ゴースト",dex:1013},
-{id:6,name:"ペリッパー",types:"みず/ひこう",dex:279},
-{id:7,name:"メガリザードン",types:"ほのお/ひこう",dex:6},
-{id:8,name:"ゲンガー",types:"ゴースト/どく",dex:94},
-{id:9,name:"メガキラフロル",types:"いわ/どく",dex:970}
-];
-const edges=[
-{from:0,to:3,mult:4,via:"かくとう"},{from:0,to:1,mult:2,via:"どく"},{from:0,to:5,mult:2,via:"どく"},
-{from:1,to:2,mult:2,via:"フェアリー"},
-{from:2,to:5,mult:4,via:"ほのお+あく"},{from:2,to:3,mult:2,via:"ほのお"},{from:2,to:8,mult:2,via:"あく"},
-{from:3,to:1,mult:2,via:"はがね"},{from:3,to:8,mult:2,via:"あく"},{from:3,to:5,mult:2,via:"あく"},
-{from:4,to:7,mult:4,via:"いわ"},{from:4,to:2,mult:2,via:"いわ"},{from:4,to:0,mult:2,via:"ひこう"},{from:4,to:5,mult:2,via:"ひこう"},
-{from:5,to:8,mult:2,via:"ゴースト"},
-{from:6,to:2,mult:2,via:"みず"},{from:6,to:7,mult:2,via:"みず"},{from:6,to:9,mult:2,via:"みず"},{from:6,to:4,mult:2,via:"みず"},
-{from:7,to:5,mult:2,via:"ほのお"},{from:7,to:3,mult:2,via:"ほのお"},{from:7,to:0,mult:2,via:"ひこう"},
-{from:8,to:1,mult:2,via:"どく"},{from:8,to:5,mult:2,via:"ゴースト"},
-{from:9,to:1,mult:2,via:"どく"},{from:9,to:7,mult:4,via:"いわ"},{from:9,to:2,mult:2,via:"いわ"}
-];
 
-const wrap=document.getElementById('wrap'),cv=document.getElementById('cv'),c=cv.getContext('2d'),info=document.getElementById('info');
-let selected=-1;const imgs={};
+<div class="section-title">環境タイムライン</div>
+<div class="timeline">
 
-function dk(){return matchMedia('(prefers-color-scheme:dark)').matches}
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">2026/04/09 12:34 ｜ サービス開始翌日</div>
+    <div class="tl-card">
+      <span class="tl-source">じぇらーる 初期評価</span>
+      <div class="tl-body">
+        <strong>最強メガシンカランキング（初日版）</strong>
+        <div style="margin:8px 0">
+          <div class="tier-row"><span class="tier-badge tier-s">S</span><div class="tier-mons"><span class="mon highlight">マフォクシー</span><span class="mon highlight">ゲンガー</span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-a">A</span><div class="tier-mons"><span class="mon">フラエッテ</span><span class="mon">サーナイト</span><span class="mon">リザードン</span><span class="mon">ユキメノコ</span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-b">B</span><div class="tier-mons"><span class="mon">カイリュー</span><span class="mon">ガルーラ</span><span class="mon">スターミー</span><span class="mon">プテラ</span><span class="mon">バンギラス</span><span class="mon">キラフロル</span><span class="mon">ゴルーグ</span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-d">D</span><div class="tier-mons"><span class="mon">それ以外は論外レベル</span></div></div>
+        </div>
+        <strong>初期構築アイデア</strong>
+        <div style="margin-top:6px">
+          <div class="team-mons"><span class="mon highlight">マフォクシー</span><span class="mon">ガブリアス</span><span class="mon">オオニューラ</span><span class="mon">エルフーン</span><span class="mon">ドドゲザン</span><span class="mon">ロトム?</span></div>
+          <div style="font-size:12px;color:var(--text2);margin-top:4px">ゲンガー+ジャラランガ+ガオガエン+オオニューラ / サーナイト+フラエッテ瞑想コントロール / 晴れパはエルフーンと組む / ユキメノコ+ミロカロス（オーロラベール）</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-function layout(){
-const r=wrap.getBoundingClientRect();
-cv.width=r.width*devicePixelRatio;cv.height=r.height*devicePixelRatio;
-c.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
-const W=r.width,H=r.height,cx=W/2,cy=H/2,R=Math.min(cx,cy)-65;
-nodes.forEach((n,i)=>{const a=(i/nodes.length)*Math.PI*2-Math.PI/2;n.px=cx+R*Math.cos(a);n.py=cy+R*Math.sin(a)});
-}
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">2026/04/11 10:30 ｜ Tier表更新</div>
+    <div class="tl-card">
+      <span class="tl-source">じぇらーる Tier表（画像）</span>
+      <div class="tl-body">
+        <strong>更新版Tierリスト</strong> — 初日版から大幅に変動
+        <div style="margin:8px 0">
+          <div class="tier-row"><span class="tier-badge tier-s">S</span><div class="tier-mons"><span class="mon highlight">フラエッテ<span class="trend-tag trend-up">S昇格</span></span><span class="mon highlight">オオニューラ<span class="trend-tag trend-new">NEW</span></span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-a">A</span><div class="tier-mons"><span class="mon">ガオガエン<span class="trend-tag trend-new">NEW</span></span><span class="mon">ゲンガー</span><span class="mon">マフォクシー<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">S→A</span></span><span class="mon">リザードン</span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-b">B</span><div class="tier-mons"><span class="mon">ドドゲザン</span><span class="mon">ヤバソチャ</span><span class="mon">カモネギ</span><span class="mon">フラージェス</span><span class="mon">ヌメルゴン</span><span class="mon">プテラ</span><span class="mon">エルフーン</span><span class="mon">ペリッパー</span></div></div>
+        </div>
+        <div class="key-insight">
+          <strong>初日→3日目の変化:</strong> マフォクシーがS→Aに降格。フラエッテがA→Sに昇格。オオニューラ・ガオガエンが非メガ枠からS・Aに急浮上。メガシンカ以外の通常ポケモンの重要性が認識され始めた。
+        </div>
+      </div>
+    </div>
+  </div>
 
-function draw(){
-layout();const r=wrap.getBoundingClientRect(),W=r.width,H=r.height,d=dk();
-c.clearRect(0,0,W,H);
+  <div class="tl-item">
+    <div class="tl-dot"></div>
+    <div class="tl-date">2026/04/11 15:38 ｜ 推奨軸発表</div>
+    <div class="tl-card">
+      <span class="tl-source">じぇらーる → @子供</span>
+      <div class="tl-body">
+        <strong>ジュニア・シニア向け推奨軸</strong>
+        <div style="margin:6px 0">
+          <span class="mon highlight">メガフラエッテ</span> <span class="mon highlight">メガリザードン</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">簡単・高パワー・運勝ちもある。マフォクシー/ゲンガー/ユキメノコはテクニック要求が高い。</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text2)"><strong>本人のランク:</strong> マスターボール級 ランクIV レート2106.915</div>
+      </div>
+    </div>
+  </div>
 
-edges.forEach(e=>{
-const a=nodes[e.from],b=nodes[e.to];
-const active=selected===-1||selected===e.from||selected===e.to;
-if(!active)return;
-const isAtk=selected===e.from;
-const alpha=selected===-1?(e.mult>=4?0.55:0.2):(isAtk?0.85:0.4);
-const c4=d?`rgba(240,149,149,${alpha})`:`rgba(226,75,74,${alpha})`;
-const c2=d?`rgba(175,169,236,${alpha})`:`rgba(83,74,183,${alpha})`;
-c.strokeStyle=e.mult>=4?c4:c2;c.lineWidth=e.mult>=4?2.5:1.2;
-const dx=b.px-a.px,dy=b.py-a.py,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nr=26;
-const sx=a.px+ux*nr,sy=a.py+uy*nr,ex=b.px-ux*(nr+8),ey=b.py-uy*(nr+8);
-const off=5,px=-uy*off,py=ux*off;
-c.beginPath();c.moveTo(sx+px,sy+py);c.lineTo(ex+px,ey+py);c.stroke();
-c.fillStyle=c.strokeStyle;c.beginPath();
-c.moveTo(ex+px,ey+py);c.lineTo(ex+px-ux*6+uy*4,ey+py-uy*6-ux*4);c.lineTo(ex+px-ux*6-uy*4,ey+py-uy*6+ux*4);c.fill();
-if(selected!==-1&&active){
-const mx=(sx+ex)/2+px,my=(sy+ey)/2+py;
-c.font='500 11px sans-serif';c.fillStyle=d?'rgba(255,255,255,0.7)':'rgba(0,0,0,0.5)';c.textAlign='center';
-c.fillText(e.mult+'x '+e.via,mx,my-6)}
-});
+  <div class="tl-item">
+    <div class="tl-dot active"></div>
+    <div class="tl-date">2026/04/12 08:49 ｜ 最新（本日）</div>
+    <div class="tl-card">
+      <span class="tl-source">じぇらーる 最新メタ観測</span>
+      <div class="tl-body">
+        <strong>最新の環境変化</strong>
+        <div style="margin:8px 0">
+          <div style="margin-bottom:6px"><span class="mon">メガスターミー<span class="trend-tag trend-up">上位で増加中</span></span> — ナーク情報。イルカマン的にアクジェ連打が強い。ゲンガー・ドドゲザンにも打て、オオニューラも縛れる。</div>
+          <div style="margin-bottom:6px"><span class="mon">ギルガルド<span class="trend-tag trend-new">検証中</span></span> — フラエッテミラー対策枠？　ガルド以外は完成されているレベルで強い。</div>
+        </div>
+        <strong>じぇらーる最新構築</strong>
+        <div class="team-mons" style="margin:6px 0">
+          <span class="mon highlight">ペリッパー</span><span class="mon highlight">スターミー</span><span class="mon">ジュラス</span><span class="mon">オオニューラ(たすき)</span><span class="mon">ドドゲザン</span><span class="mon">ヤバソチャ</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2)">雨軸+スターミー。フラエッテ・リザードン軸から大きく方針転換。</div>
+      </div>
+    </div>
+  </div>
 
-nodes.forEach((n,i)=>{
-const active=selected===-1||selected===i||edges.some(e=>(e.from===selected&&e.to===i)||(e.to===selected&&e.from===i));
-const na=active?1:0.15;const nr=24;
-c.beginPath();c.arc(n.px,n.py,nr,0,Math.PI*2);
-c.fillStyle=d?`rgba(40,40,38,${na})`:`rgba(255,255,255,${na})`;c.fill();
-c.strokeStyle=d?`rgba(180,178,169,${na*0.35})`:`rgba(0,0,0,${na*0.12})`;c.lineWidth=0.5;c.stroke();
-const img=imgs[n.dex];
-if(img&&img.complete&&img.naturalWidth>0){c.globalAlpha=na;c.drawImage(img,n.px-18,n.py-18,36,36);c.globalAlpha=1}
-c.font='500 11px sans-serif';c.fillStyle=d?`rgba(255,255,255,${na*0.85})`:`rgba(0,0,0,${na*0.75})`;c.textAlign='center';
-c.fillText(n.name,n.px,n.py+nr+14);
-c.font='11px sans-serif';c.fillStyle=d?`rgba(255,255,255,${na*0.4})`:`rgba(0,0,0,${na*0.35})`;
-c.fillText(n.types,n.px,n.py+nr+26);
-if(selected===i){c.beginPath();c.arc(n.px,n.py,nr+3,0,Math.PI*2);
-c.strokeStyle=d?'rgba(175,169,236,0.7)':'rgba(83,74,183,0.5)';c.lineWidth=2;c.stroke()}
-});
-}
+</div>
 
-nodes.forEach(n=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>draw();img.onerror=()=>draw();
-img.src=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${n.dex}.png`;imgs[n.dex]=img});
+<div class="section-title">メタの推移サマリー</div>
+<div class="meta-shift">
+  <div class="shift-card">
+    <div class="shift-label">評価上昇</div>
+    <div class="shift-items">
+      <span class="mon">フラエッテ<span class="trend-tag trend-up">A→S</span></span>
+      <span class="mon">オオニューラ<span class="trend-tag trend-up">圏外→S</span></span>
+      <span class="mon">ガオガエン<span class="trend-tag trend-up">圏外→A</span></span>
+      <span class="mon">スターミー<span class="trend-tag trend-up">B→注目</span></span>
+    </div>
+  </div>
+  <div class="shift-card">
+    <div class="shift-label">評価下降</div>
+    <div class="shift-items">
+      <span class="mon">マフォクシー<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">S→A</span></span>
+      <span class="mon">サーナイト<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">A→?</span></span>
+    </div>
+  </div>
+</div>
 
-cv.addEventListener('click',e=>{
-const rect=wrap.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
-let hit=-1;nodes.forEach((n,i)=>{if(Math.hypot(mx-n.px,my-n.py)<30)hit=i});
-selected=selected===hit?-1:hit;draw();
-if(selected===-1){info.textContent='ポケモンをクリックすると攻撃有利・被弱点がハイライトされます';return}
-const s=nodes[selected];
-const atk=edges.filter(e=>e.from===selected).map(e=>nodes[e.to].name+'('+e.mult+'x '+e.via+')');
-const def=edges.filter(e=>e.to===selected).map(e=>nodes[e.from].name+'('+e.mult+'x '+e.via+')');
-info.innerHTML='<strong>'+s.name+'</strong>　'
-+(atk.length?'<span style="color:var(--info-text)">攻撃有利:</span> '+atk.join(', ')+'　':'')
-+(def.length?'<span style="color:var(--danger-text)">被弱点:</span> '+def.join(', '):'')
-});
+<div class="section-title">メガシンカ評価推移（4/9→4/12）</div>
+<div style="margin:8px 0">
+  <div class="rating-bar"><span class="name">フラエッテ</span><div class="bar-wrap"><div class="bar" style="width:95%;background:var(--s)"></div></div><span class="val">S</span></div>
+  <div class="rating-bar"><span class="name">ゲンガー</span><div class="bar-wrap"><div class="bar" style="width:82%;background:var(--a)"></div></div><span class="val">A</span></div>
+  <div class="rating-bar"><span class="name">マフォクシー</span><div class="bar-wrap"><div class="bar" style="width:80%;background:var(--a)"></div></div><span class="val">A</span></div>
+  <div class="rating-bar"><span class="name">リザードン</span><div class="bar-wrap"><div class="bar" style="width:78%;background:var(--a)"></div></div><span class="val">A</span></div>
+  <div class="rating-bar"><span class="name">スターミー</span><div class="bar-wrap"><div class="bar" style="width:65%;background:var(--b)"></div></div><span class="val">B+</span></div>
+  <div class="rating-bar"><span class="name">ユキメノコ</span><div class="bar-wrap"><div class="bar" style="width:55%;background:var(--b)"></div></div><span class="val">B</span></div>
+  <div class="rating-bar"><span class="name">プテラ</span><div class="bar-wrap"><div class="bar" style="width:50%;background:var(--b)"></div></div><span class="val">B</span></div>
+  <div class="rating-bar"><span class="name">サーナイト</span><div class="bar-wrap"><div class="bar" style="width:45%;background:var(--c)"></div></div><span class="val">B-</span></div>
+  <div class="rating-bar"><span class="name">カイリュー</span><div class="bar-wrap"><div class="bar" style="width:40%;background:var(--c)"></div></div><span class="val">C</span></div>
+  <div class="rating-bar"><span class="name">ガルーラ</span><div class="bar-wrap"><div class="bar" style="width:38%;background:var(--c)"></div></div><span class="val">C</span></div>
+  <div class="rating-bar"><span class="name">キラフロル</span><div class="bar-wrap"><div class="bar" style="width:35%;background:var(--c)"></div></div><span class="val">C</span></div>
+</div>
 
-const cardsEl=document.getElementById('cards');
-nodes.forEach((n,i)=>{
-const atk=edges.filter(e=>e.from===i),def=edges.filter(e=>e.to===i);
-const atkTags=atk.length?atk.map(e=>{const t=nodes[e.to];const cls=e.mult>=4?'tag-atk4':'tag-atk';
-return `<span class="tag ${cls}">${t.name} ${e.mult}x<span class="via">${e.via}</span></span>`}).join(''):'<span style="font-size:11px;color:var(--text3)">-</span>';
-const defTags=def.length?def.map(e=>{const t=nodes[e.from];const cls=e.mult>=4?'tag-def4':'tag-def';
-return `<span class="tag ${cls}">${t.name} ${e.mult}x<span class="via">${e.via}</span></span>`}).join(''):'<span style="font-size:11px;color:var(--text3)">-</span>';
-const card=document.createElement('div');card.className='card';
-card.innerHTML=`<div class="card-hdr"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${n.dex}.png" onerror="this.style.display='none'"><div><div class="card-name">${n.name}</div><div class="card-types">${n.types}</div></div><div class="badges"><span class="badge b-atk">攻${atk.length}</span><span class="badge b-def">被${def.length}</span></div></div><div><div class="sec-label">攻撃有利</div><div class="tags">${atkTags}</div></div><div><div class="sec-label">被弱点</div><div class="tags">${defTags}</div></div>`;
-cardsEl.appendChild(card)});
+<div class="section-title">注目構築パターン</div>
 
-setTimeout(draw,200);window.addEventListener('resize',draw);
-</script>
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--s)">&#9679;</span> フラエッテ軸（推奨）</div>
+  <div class="team-mons"><span class="mon highlight">メガフラエッテ</span><span class="mon">ガオガエン</span><span class="mon">オオニューラ</span><span class="mon">ドドゲザン</span><span class="mon">ヤバソチャ</span><span class="mon">+1</span></div>
+  <div class="team-note">瞑想コントロール or CS殴り型。簡単・高パワー。PJCS向け第一推奨。</div>
+</div>
+
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--s)">&#9679;</span> リザードン晴れ軸（推奨）</div>
+  <div class="team-mons"><span class="mon highlight">メガリザードン</span><span class="mon">エルフーン</span><span class="mon">ガオガエン</span><span class="mon">オオニューラ</span><span class="mon">+2</span></div>
+  <div class="team-note">晴れ展開からの制圧。エルフーンと組む。扱いやすく安定感あり。</div>
+</div>
+
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--b)">&#9679;</span> 雨スターミー軸（最新・上級者向け）</div>
+  <div class="team-mons"><span class="mon highlight">ペリッパー</span><span class="mon highlight">メガスターミー</span><span class="mon">ジュラス</span><span class="mon">オオニューラ(たすき)</span><span class="mon">ドドゲザン</span><span class="mon">ヤバソチャ</span></div>
+  <div class="team-note">じぇらーる最新構築。アクジェ連打でオオニューラを縛る。フラエッテミラーを避ける構築。レート2100帯で運用中。</div>
+</div>
+
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--c)">&#9679;</span> ゲンガー+ジャラランガ軸</div>
+  <div class="team-mons"><span class="mon">メガゲンガー</span><span class="mon">ジャラランガ</span><span class="mon">ガオガエン</span><span class="mon">オオニューラ</span><span class="mon">+2</span></div>
+  <div class="team-note">テクニック要求高。上級者向け。</div>
+</div>
+
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--c)">&#9679;</span> ユキメノコ+ミロカロス軸</div>
+  <div class="team-mons"><span class="mon">メガユキメノコ</span><span class="mon">ミロカロス</span><span class="mon">+4</span></div>
+  <div class="team-note">オーロラベール展開。テクニック枠。</div>
+</div>
+
+<div class="section-title">次の注目ポイント</div>
+<div class="key-insight">
+  <strong>1. メガスターミーの台頭</strong> — 上位で増加中。雨パのエースとして確立するか？<br>
+  <strong>2. フラエッテミラー対策</strong> — ギルガルド？ドドゲザン（はがね打点）？毒タイプ？<br>
+  <strong>3. てるチャレChampions #0 結果</strong> — 本日開催。初の大会結果がメタに大きく影響する可能性。
+</div>
+
+<div class="footer">
+  レギュレーションM-A 戦略ボード ｜ ソース: #じぇらーるメモ ｜ Pokémon Champions PJCS2026予選環境
+</div>
+
 </body>
 </html>
