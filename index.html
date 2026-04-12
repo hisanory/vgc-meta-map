@@ -9,15 +9,17 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#fafaf8;--bg2:#f1efe8;--bg3:#e8e6df;--card:#fff;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;
---s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;--e:#B4B2A9;
+--s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;
 --up-bg:#EAF3DE;--up-text:#27500A;--down-bg:#FCEBEB;--down-text:#791F1F;--new-bg:#E6F1FB;--new-text:#0C447C;--hot-bg:#FAEEDA;--hot-text:#633806;
 --purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
---recommend-bg:#E1F5EE;--recommend-text:#085041}
+--recommend-bg:#E1F5EE;--recommend-text:#085041;
+--alert-bg:#FBEAF0;--alert-text:#72243E}
 @media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--bg3:#3a3a37;--card:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;
---s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;--e:#B4B2A9;
+--s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;
 --up-bg:#173404;--up-text:#C0DD97;--down-bg:#501313;--down-text:#F09595;--new-bg:#042C53;--new-text:#85B7EB;--hot-bg:#412402;--hot-text:#FAC775;
 --purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
---recommend-bg:#04342C;--recommend-text:#9FE1CB}}
+--recommend-bg:#04342C;--recommend-text:#9FE1CB;
+--alert-bg:#4B1528;--alert-text:#ED93B1}}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans",sans-serif;max-width:860px;margin:0 auto;padding:20px 16px}
 h1{font-size:20px;font-weight:500;margin-bottom:2px}
 .subtitle{font-size:12px;color:var(--text3);margin-bottom:20px}
@@ -43,9 +45,13 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
 .trend-up{background:var(--up-bg);color:var(--up-text)}
 .trend-new{background:var(--new-bg);color:var(--new-text)}
 .trend-hot{background:var(--hot-bg);color:var(--hot-text)}
+.trend-down{background:var(--down-bg);color:var(--down-text)}
 .recommend-box{background:var(--recommend-bg);color:var(--recommend-text);border-radius:12px;padding:14px 18px;margin:12px 0}
 .recommend-box .label{font-size:11px;font-weight:500;margin-bottom:6px}
 .recommend-box .content{font-size:13px;line-height:1.7}
+.alert-box{background:var(--alert-bg);color:var(--alert-text);border-radius:12px;padding:14px 18px;margin:12px 0}
+.alert-box .label{font-size:11px;font-weight:500;margin-bottom:6px}
+.alert-box .content{font-size:13px;line-height:1.7}
 .team-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:8px}
 .team-title{font-size:13px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .team-mons{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}
@@ -68,13 +74,21 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
 <body>
 
 <h1>レギュM-A 戦略ボード</h1>
-<p class="subtitle">ソース: #じぇらーるメモ ｜ 最終更新: 2026-04-12 ｜ シーズンM-1（4/8〜5/13）</p>
+<p class="subtitle">ソース: #じぇらーるメモ ｜ 最終更新: 2026-04-12 10:41 ｜ シーズンM-1（4/8〜5/13）</p>
 
 <div class="recommend-box">
   <div class="label">PJCS2026予選に向けた推奨軸（ジュニア・シニア向け）</div>
   <div class="content">
     <strong>メガフラエッテ</strong> と <strong>メガリザードン</strong> を軸に練習すること強く推奨。<br>
     理由: 簡単でパワーが高く、運が良ければ負けることがなさすぎる。マフォクシー・ゲンガー・ユキメノコも強いがテクニック要求が高い。
+  </div>
+</div>
+
+<div class="alert-box">
+  <div class="label">最新メタ速報（4/12 10:41）</div>
+  <div class="content">
+    上位勢が <strong>2メガ構築</strong> を提唱中。メガシンカが強すぎるため、1チームにメガ枠を2体入れることで破壊力が爆上がりするとのこと。<br>
+    対象メガ: <span class="mon highlight" data-mon="フラエッテ">フラエッテ</span> <span class="mon highlight" data-mon="マフォクシー">マフォクシー</span> <span class="mon highlight" data-mon="リザードン">リザードン</span> <span class="mon highlight" data-mon="ゲンガー">ゲンガー</span> <span class="mon" data-mon="スターミー">スターミー（ワンチャン）</span>
   </div>
 </div>
 
@@ -97,7 +111,12 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
         <strong>初期構築アイデア</strong>
         <div style="margin-top:6px">
           <div class="team-mons"><span class="mon highlight" data-mon="マフォクシー">マフォクシー</span><span class="mon" data-mon="ガブリアス">ガブリアス</span><span class="mon" data-mon="オオニューラ">オオニューラ</span><span class="mon" data-mon="エルフーン">エルフーン</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ロトム">ロトム?</span></div>
-          <div style="font-size:12px;color:var(--text2);margin-top:4px"><span data-mon="ゲンガー" style="font-weight:500">ゲンガー</span>+<span data-mon="ジャラランガ">ジャラランガ</span>+<span data-mon="ガオガエン">ガオガエン</span>+<span data-mon="オオニューラ">オオニューラ</span> / <span data-mon="サーナイト">サーナイト</span>+<span data-mon="フラエッテ">フラエッテ</span>瞑想コントロール / 晴れパは<span data-mon="エルフーン">エルフーン</span>と組む / <span data-mon="ユキメノコ">ユキメノコ</span>+<span data-mon="ミロカロス">ミロカロス</span>（オーロラベール）</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:4px">
+            <span data-mon="ゲンガー" style="font-weight:500">ゲンガー</span>+<span data-mon="ジャラランガ">ジャラランガ</span>+<span data-mon="ガオガエン">ガオガエン</span>+<span data-mon="オオニューラ">オオニューラ</span> ／
+            <span data-mon="サーナイト">サーナイト</span>+<span data-mon="フラエッテ">フラエッテ</span>瞑想コントロール ／
+            晴れパは<span data-mon="エルフーン">エルフーン</span>と組む ／
+            <span data-mon="ユキメノコ">ユキメノコ</span>+<span data-mon="ミロカロス">ミロカロス</span>（オーロラベール）
+          </div>
         </div>
       </div>
     </div>
@@ -112,7 +131,7 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
         <strong>更新版Tierリスト</strong> — 初日版から大幅に変動
         <div style="margin:8px 0">
           <div class="tier-row"><span class="tier-badge tier-s">S</span><div class="tier-mons"><span class="mon highlight" data-mon="フラエッテ">フラエッテ<span class="trend-tag trend-up">S昇格</span></span><span class="mon highlight" data-mon="オオニューラ">オオニューラ<span class="trend-tag trend-new">NEW</span></span></div></div>
-          <div class="tier-row"><span class="tier-badge tier-a">A</span><div class="tier-mons"><span class="mon" data-mon="ガオガエン">ガオガエン<span class="trend-tag trend-new">NEW</span></span><span class="mon" data-mon="ゲンガー">ゲンガー</span><span class="mon" data-mon="マフォクシー">マフォクシー<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">S→A</span></span><span class="mon" data-mon="リザードン">リザードン</span></div></div>
+          <div class="tier-row"><span class="tier-badge tier-a">A</span><div class="tier-mons"><span class="mon" data-mon="ガオガエン">ガオガエン<span class="trend-tag trend-new">NEW</span></span><span class="mon" data-mon="ゲンガー">ゲンガー</span><span class="mon" data-mon="マフォクシー">マフォクシー<span class="trend-tag trend-down">S→A</span></span><span class="mon" data-mon="リザードン">リザードン</span></div></div>
           <div class="tier-row"><span class="tier-badge tier-b">B</span><div class="tier-mons"><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span><span class="mon" data-mon="カモネギ">カモネギ</span><span class="mon" data-mon="フラージェス">フラージェス</span><span class="mon" data-mon="ヌメルゴン">ヌメルゴン</span><span class="mon" data-mon="プテラ">プテラ</span><span class="mon" data-mon="エルフーン">エルフーン</span><span class="mon" data-mon="ペリッパー">ペリッパー</span></div></div>
         </div>
         <div class="key-insight">
@@ -139,28 +158,54 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
   </div>
 
   <div class="tl-item">
-    <div class="tl-dot active"></div>
-    <div class="tl-date">2026/04/12 08:49 ｜ 最新（本日）</div>
+    <div class="tl-dot"></div>
+    <div class="tl-date">2026/04/12 08:49 ｜ メタ観測</div>
     <div class="tl-card">
-      <span class="tl-source">じぇらーる 最新メタ観測</span>
+      <span class="tl-source">じぇらーる メタ観測</span>
       <div class="tl-body">
         <strong>最新の環境変化</strong>
         <div style="margin:8px 0">
           <div style="margin-bottom:6px"><span class="mon" data-mon="スターミー">メガスターミー<span class="trend-tag trend-up">上位で増加中</span></span> — ナーク情報。イルカマン的にアクジェ連打が強い。ゲンガー・ドドゲザンにも打て、オオニューラも縛れる。</div>
-          <div style="margin-bottom:6px"><span class="mon" data-mon="ギルガルド">ギルガルド<span class="trend-tag trend-new">検証中</span></span> — フラエッテミラー対策枠？　ガルド以外は完成されているレベルで強い。</div>
+          <div style="margin-bottom:6px"><span class="mon" data-mon="ギルガルド">ギルガルド<span class="trend-tag trend-new">検証中</span></span> — フラエッテミラー対策枠？ ガルド以外は完成されているレベルで強い。</div>
         </div>
-        <strong>じぇらーる最新構築</strong>
+        <strong>じぇらーる構築（チーム3）</strong>
         <div class="team-mons" style="margin:6px 0">
-          <span class="mon highlight" data-mon="ペリッパー">ペリッパー</span><span class="mon highlight" data-mon="スターミー">スターミー</span><span class="mon" data-mon="ジュラルドン">ジュラス</span><span class="mon" data-mon="オオニューラ">オオニューラ(たすき)</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span>
+          <span class="mon highlight" data-mon="ガブリアス">メガガブリアス</span><span class="mon" data-mon="ゲンガー">ゲンガー</span><span class="mon" data-mon="ギルガルド">ギルガルド</span><span class="mon" data-mon="ペリッパー">ペリッパー</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="オオニューラ">オオニューラ</span>
         </div>
-        <div style="font-size:12px;color:var(--text2)">雨軸+スターミー。フラエッテ・リザードン軸から大きく方針転換。</div>
+        <strong>別構築（雨軸）</strong>
+        <div class="team-mons" style="margin:6px 0">
+          <span class="mon highlight" data-mon="ペリッパー">ペリッパー</span><span class="mon highlight" data-mon="スターミー">メガスターミー</span><span class="mon" data-mon="ジュラルドン">ジュラス</span><span class="mon" data-mon="オオニューラ">オオニューラ(たすき)</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl-item">
+    <div class="tl-dot active"></div>
+    <div class="tl-date">2026/04/12 10:41 ｜ 最新（本日）</div>
+    <div class="tl-card">
+      <span class="tl-source">じぇらーる 速報：上位勢の提唱</span>
+      <div class="tl-body">
+        <strong>2メガ構築が最強説</strong>
+        <div class="key-insight" style="margin:8px 0">
+          メガシンカが強すぎるため、<strong>1チームにメガ枠を2体採用</strong>することで破壊力が爆上がりするルール説を上位勢が提唱。
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:6px">2メガ採用の対象となるメガシンカ:</div>
+        <div class="team-mons">
+          <span class="mon highlight" data-mon="フラエッテ">フラエッテ</span>
+          <span class="mon highlight" data-mon="マフォクシー">マフォクシー</span>
+          <span class="mon highlight" data-mon="リザードン">リザードン</span>
+          <span class="mon highlight" data-mon="ゲンガー">ゲンガー</span>
+          <span class="mon" data-mon="スターミー">スターミー（ワンチャン）</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-top:6px">それ以外のメガシンカは現時点で2メガ構築の候補外。</div>
       </div>
     </div>
   </div>
 
 </div>
 
-<div class="section-title">メタの推移サマリー</div>
+<div class="section-title">メタの推移サマリー（4/9→4/12）</div>
 <div class="meta-shift">
   <div class="shift-card">
     <div class="shift-label">評価上昇</div>
@@ -174,13 +219,13 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
   <div class="shift-card">
     <div class="shift-label">評価下降</div>
     <div class="shift-items">
-      <span class="mon" data-mon="マフォクシー">マフォクシー<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">S→A</span></span>
-      <span class="mon" data-mon="サーナイト">サーナイト<span class="trend-tag" style="background:var(--down-bg);color:var(--down-text)">A→?</span></span>
+      <span class="mon" data-mon="マフォクシー">マフォクシー<span class="trend-tag trend-down">S→A</span></span>
+      <span class="mon" data-mon="サーナイト">サーナイト<span class="trend-tag trend-down">A→?</span></span>
     </div>
   </div>
 </div>
 
-<div class="section-title">メガシンカ評価推移（4/9→4/12）</div>
+<div class="section-title">メガシンカ評価推移</div>
 <div style="margin:8px 0" id="rating-bars">
   <div class="rating-bar"><span class="name" data-bar="フラエッテ">フラエッテ</span><div class="bar-wrap"><div class="bar" style="width:95%;background:var(--s)"></div></div><span class="val">S</span></div>
   <div class="rating-bar"><span class="name" data-bar="ゲンガー">ゲンガー</span><div class="bar-wrap"><div class="bar" style="width:82%;background:var(--a)"></div></div><span class="val">A</span></div>
@@ -193,26 +238,40 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
   <div class="rating-bar"><span class="name" data-bar="カイリュー">カイリュー</span><div class="bar-wrap"><div class="bar" style="width:40%;background:var(--c)"></div></div><span class="val">C</span></div>
   <div class="rating-bar"><span class="name" data-bar="ガルーラ">ガルーラ</span><div class="bar-wrap"><div class="bar" style="width:38%;background:var(--c)"></div></div><span class="val">C</span></div>
   <div class="rating-bar"><span class="name" data-bar="キラフロル">キラフロル</span><div class="bar-wrap"><div class="bar" style="width:35%;background:var(--c)"></div></div><span class="val">C</span></div>
+  <div class="rating-bar"><span class="name" data-bar="ガブリアス">ガブリアス</span><div class="bar-wrap"><div class="bar" style="width:33%;background:var(--c)"></div></div><span class="val">C</span></div>
 </div>
+<div style="font-size:11px;color:var(--text3);margin-top:4px">※ 2メガ構築で採用候補に入るのは上位5体のみ（フラエッテ〜スターミー）</div>
 
 <div class="section-title">注目構築パターン</div>
 
 <div class="team-card">
-  <div class="team-title"><span style="color:var(--s)">&#9679;</span> フラエッテ軸（推奨）</div>
+  <div class="team-title"><span style="color:var(--s)">&#9679;</span> フラエッテ軸（推奨・初心者向け）</div>
   <div class="team-mons"><span class="mon highlight" data-mon="フラエッテ">メガフラエッテ</span><span class="mon" data-mon="ガオガエン">ガオガエン</span><span class="mon" data-mon="オオニューラ">オオニューラ</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span><span class="mon">+1</span></div>
   <div class="team-note">瞑想コントロール or CS殴り型。簡単・高パワー。PJCS向け第一推奨。</div>
 </div>
 
 <div class="team-card">
-  <div class="team-title"><span style="color:var(--s)">&#9679;</span> リザードン晴れ軸（推奨）</div>
+  <div class="team-title"><span style="color:var(--s)">&#9679;</span> リザードン晴れ軸（推奨・初心者向け）</div>
   <div class="team-mons"><span class="mon highlight" data-mon="リザードン">メガリザードン</span><span class="mon" data-mon="エルフーン">エルフーン</span><span class="mon" data-mon="ガオガエン">ガオガエン</span><span class="mon" data-mon="オオニューラ">オオニューラ</span><span class="mon">+2</span></div>
   <div class="team-note">晴れ展開からの制圧。エルフーンと組む。扱いやすく安定感あり。</div>
 </div>
 
+<div class="team-card" style="border:2px solid var(--alert-text)">
+  <div class="team-title"><span style="color:var(--s)">&#9679;</span> 2メガ構築（最新・上級者向け）<span class="trend-tag trend-hot">NEW</span></div>
+  <div class="team-mons"><span class="mon highlight" data-mon="フラエッテ">メガフラエッテ</span><span class="mon highlight" data-mon="リザードン">メガリザードン</span><span class="mon">or 他メガ組み合わせ</span><span class="mon" data-mon="オオニューラ">オオニューラ</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon">+2</span></div>
+  <div class="team-note">上位勢提唱。メガ2体の圧倒的パワーで押す。対象: フラエッテ/マフォクシー/リザードン/ゲンガー/スターミーから2体選出。試合中にメガシンカできるのは1体だが、選出段階で柔軟に使い分けられる。</div>
+</div>
+
 <div class="team-card">
-  <div class="team-title"><span style="color:var(--b)">&#9679;</span> 雨スターミー軸（最新・上級者向け）</div>
+  <div class="team-title"><span style="color:var(--b)">&#9679;</span> 雨スターミー軸（上級者向け）</div>
   <div class="team-mons"><span class="mon highlight" data-mon="ペリッパー">ペリッパー</span><span class="mon highlight" data-mon="スターミー">メガスターミー</span><span class="mon" data-mon="ジュラルドン">ジュラス</span><span class="mon" data-mon="オオニューラ">オオニューラ(たすき)</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span></div>
-  <div class="team-note">じぇらーる最新構築。アクジェ連打でオオニューラを縛る。フラエッテミラーを避ける構築。レート2100帯で運用中。</div>
+  <div class="team-note">じぇらーる構築案。アクジェ連打でオオニューラを縛る。フラエッテミラーを避ける構築。</div>
+</div>
+
+<div class="team-card">
+  <div class="team-title"><span style="color:var(--c)">&#9679;</span> ガブリアス+ギルガルド軸（検証中）</div>
+  <div class="team-mons"><span class="mon" data-mon="ガブリアス">メガガブリアス</span><span class="mon" data-mon="ゲンガー">ゲンガー</span><span class="mon" data-mon="ギルガルド">ギルガルド</span><span class="mon" data-mon="ペリッパー">ペリッパー</span><span class="mon" data-mon="ドドゲザン">ドドゲザン</span><span class="mon" data-mon="オオニューラ">オオニューラ</span></div>
+  <div class="team-note">じぇらーるチーム3。ガルド以外は完成されたレベルで強い。ガルドはフラエッテミラー対策枠か？ レート2106で運用中。</div>
 </div>
 
 <div class="team-card">
@@ -229,9 +288,10 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
 
 <div class="section-title">次の注目ポイント</div>
 <div class="key-insight">
-  <strong>1. メガスターミーの台頭</strong> — 上位で増加中。雨パのエースとして確立するか？<br>
-  <strong>2. フラエッテミラー対策</strong> — ギルガルド？ドドゲザン（はがね打点）？毒タイプ？<br>
-  <strong>3. てるチャレChampions #0 結果</strong> — 4/12開催。初の大会結果がメタに大きく影響する可能性。
+  <strong>1. 2メガ構築の最適解</strong> — どのメガ2体の組み合わせが最強か？ フラエッテ+マフォクシー？ フラエッテ+ゲンガー？<br>
+  <strong>2. メガスターミーの評価確定</strong> — 上位で増加中だが、2メガの5体目に入るか？<br>
+  <strong>3. てるチャレChampions #0 結果</strong> — 4/12開催。初の大会結果がメタに大きく影響する可能性。<br>
+  <strong>4. ギルガルドの評価</strong> — フラエッテミラー対策として確立するか？
 </div>
 
 <div class="footer">
@@ -239,40 +299,24 @@ h1{font-size:20px;font-weight:500;margin-bottom:2px}
 </div>
 
 <script>
-const DEX = {
-  "マフォクシー":655,"ゲンガー":94,"フラエッテ":670,"サーナイト":282,
-  "リザードン":6,"ユキメノコ":478,"カイリュー":149,"ガルーラ":115,
-  "スターミー":121,"プテラ":142,"バンギラス":248,"キラフロル":970,
-  "ゴルーグ":623,"オオニューラ":903,"ガオガエン":727,"ドドゲザン":983,
-  "エルフーン":547,"ロトム":479,"ジャラランガ":784,"ミロカロス":350,
-  "ガブリアス":445,"ペリッパー":279,"ヤバソチャ":1013,"ギルガルド":681,
-  "ジュラルドン":884,"フラージェス":671,"ヌメルゴン":706,"カモネギ":865
+const DEX={
+"マフォクシー":655,"ゲンガー":94,"フラエッテ":670,"サーナイト":282,
+"リザードン":6,"ユキメノコ":478,"カイリュー":149,"ガルーラ":115,
+"スターミー":121,"プテラ":142,"バンギラス":248,"キラフロル":970,
+"ゴルーグ":623,"オオニューラ":903,"ガオガエン":727,"ドドゲザン":983,
+"エルフーン":547,"ロトム":479,"ジャラランガ":784,"ミロカロス":350,
+"ガブリアス":445,"ペリッパー":279,"ヤバソチャ":1013,"ギルガルド":681,
+"ジュラルドン":884,"フラージェス":671,"ヌメルゴン":706,"カモネギ":865
 };
-const BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-
-document.querySelectorAll('.mon[data-mon]').forEach(el => {
-  const name = el.getAttribute('data-mon');
-  const dex = DEX[name];
-  if (!dex) return;
-  const img = document.createElement('img');
-  img.className = 'sp';
-  img.src = BASE + dex + '.png';
-  img.alt = name;
-  img.onerror = function(){ this.style.display = 'none'; };
-  el.insertBefore(img, el.firstChild);
-});
-
-document.querySelectorAll('.rating-bar .name[data-bar]').forEach(el => {
-  const name = el.getAttribute('data-bar');
-  const dex = DEX[name];
-  if (!dex) return;
-  const img = document.createElement('img');
-  img.className = 'sp';
-  img.src = BASE + dex + '.png';
-  img.alt = name;
-  img.onerror = function(){ this.style.display = 'none'; };
-  el.insertBefore(img, el.firstChild);
-});
+const BASE="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+document.querySelectorAll('[data-mon]').forEach(el=>{
+const n=el.getAttribute('data-mon'),d=DEX[n];if(!d)return;
+const i=document.createElement('img');i.className='sp';i.src=BASE+d+'.png';i.alt=n;
+i.onerror=function(){this.style.display='none'};el.insertBefore(i,el.firstChild)});
+document.querySelectorAll('[data-bar]').forEach(el=>{
+const n=el.getAttribute('data-bar'),d=DEX[n];if(!d)return;
+const i=document.createElement('img');i.className='sp';i.src=BASE+d+'.png';i.alt=n;
+i.onerror=function(){this.style.display='none'};el.insertBefore(i,el.firstChild)});
 </script>
 
 </body>
