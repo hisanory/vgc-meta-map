@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="レギュレーションM-A タイプ相性マップ">
+<meta property="og:description" content="PJCS2026予選環境トップ10のタイプ相性ネットワーク（2026-04-11時点）">
+<title>レギュレーションM-A タイプ相性マップ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf8;--bg2:#f1efe8;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;--red:#E24B4A;--purple:#534AB7;--info-bg:#E6F1FB;--info-text:#0C447C;--danger-bg:#FCEBEB;--danger-text:#791F1F;--warn-bg:#FAEEDA;--warn-text:#633806}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;--red:#F09595;--purple:#AFA9EC;--info-bg:#042C53;--info-text:#85B7EB;--danger-bg:#501313;--danger-text:#F09595;--warn-bg:#412402;--warn-text:#FAC775}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:900px;margin:0 auto;padding:16px}
+h1{font-size:18px;font-weight:500;margin-bottom:4px}
+.sub{font-size:12px;color:var(--text3);margin-bottom:12px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--text2);margin-bottom:8px}
+.legend span{display:inline-flex;align-items:center;gap:4px}
+.line4{width:18px;height:3px;background:var(--red);display:inline-block}
+.line2{width:18px;height:2px;background:var(--purple);display:inline-block}
+#wrap{position:relative;width:100%;height:min(540px,70vw);margin-bottom:16px}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+#info{min-height:36px;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;padding:8px 12px;background:var(--bg2);border-radius:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:12px;padding:10px 14px}
+.card-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.card-hdr img{width:32px;height:32px;image-rendering:pixelated}
+.card-name{font-weight:500;font-size:13px}
+.card-types{font-size:11px;color:var(--text3)}
+.badges{margin-left:auto;display:flex;gap:4px}
+.badge{font-size:11px;padding:2px 8px;border-radius:8px}
+.b-atk{background:var(--info-bg);color:var(--info-text)}
+.b-def{background:var(--danger-bg);color:var(--danger-text)}
+.sec-label{font-size:11px;color:var(--text2);margin-bottom:3px}
+.tags{display:flex;flex-wrap:wrap;margin-bottom:6px}
+.tag{display:inline-flex;align-items:center;gap:3px;font-size:11px;padding:2px 8px;border-radius:8px;margin:2px 4px 2px 0}
+.tag-atk{background:var(--info-bg);color:var(--info-text)}
+.tag-atk4{background:var(--danger-bg);color:var(--danger-text)}
+.tag-def{background:var(--warn-bg);color:var(--warn-text)}
+.tag-def4{background:var(--danger-bg);color:var(--danger-text)}
+.tag .via{opacity:0.7}
+</style>
+</head>
+<body>
+<h1>レギュレーションM-A タイプ相性マップ</h1>
+<p class="sub">PJCS2026予選環境トップ10 ｜ 2026-04-11時点 ｜ ノードをクリックでハイライト</p>
+<div class="legend">
+  <span><span class="line4"></span>4x 弱点</span>
+  <span><span class="line2"></span>2x 弱点</span>
+</div>
+<div id="wrap"><canvas id="cv"></canvas></div>
+<div id="info">ポケモンをクリックすると攻撃有利・被弱点がハイライトされます</div>
+<div class="cards" id="cards"></div>
+<p style="font-size:11px;color:var(--text3);margin-top:16px;text-align:center;">Pokémon Champions レギュレーションM-A ダブルバトル環境考察</p>
+<script>
+const nodes=[
+{id:0,name:"オオニューラ",types:"かくとう/どく",dex:903},
+{id:1,name:"メガフラエッテ",types:"フェアリー",dex:670},
+{id:2,name:"ガオガエン",types:"ほのお/あく",dex:727},
+{id:3,name:"ドドゲザン",types:"あく/はがね",dex:983},
+{id:4,name:"プテラ",types:"いわ/ひこう",dex:142},
+{id:5,name:"ヤバソチャ",types:"くさ/ゴースト",dex:1013},
+{id:6,name:"ペリッパー",types:"みず/ひこう",dex:279},
+{id:7,name:"メガリザードン",types:"ほのお/ひこう",dex:6},
+{id:8,name:"ゲンガー",types:"ゴースト/どく",dex:94},
+{id:9,name:"メガキラフロル",types:"いわ/どく",dex:970}
+];
+const edges=[
+{from:0,to:3,mult:4,via:"かくとう"},{from:0,to:1,mult:2,via:"どく"},{from:0,to:5,mult:2,via:"どく"},
+{from:1,to:2,mult:2,via:"フェアリー"},
+{from:2,to:5,mult:4,via:"ほのお+あく"},{from:2,to:3,mult:2,via:"ほのお"},{from:2,to:8,mult:2,via:"あく"},
+{from:3,to:1,mult:2,via:"はがね"},{from:3,to:8,mult:2,via:"あく"},{from:3,to:5,mult:2,via:"あく"},
+{from:4,to:7,mult:4,via:"いわ"},{from:4,to:2,mult:2,via:"いわ"},{from:4,to:0,mult:2,via:"ひこう"},{from:4,to:5,mult:2,via:"ひこう"},
+{from:5,to:8,mult:2,via:"ゴースト"},
+{from:6,to:2,mult:2,via:"みず"},{from:6,to:7,mult:2,via:"みず"},{from:6,to:9,mult:2,via:"みず"},{from:6,to:4,mult:2,via:"みず"},
+{from:7,to:5,mult:2,via:"ほのお"},{from:7,to:3,mult:2,via:"ほのお"},{from:7,to:0,mult:2,via:"ひこう"},
+{from:8,to:1,mult:2,via:"どく"},{from:8,to:5,mult:2,via:"ゴースト"},
+{from:9,to:1,mult:2,via:"どく"},{from:9,to:7,mult:4,via:"いわ"},{from:9,to:2,mult:2,via:"いわ"}
+];
+
+const wrap=document.getElementById('wrap'),cv=document.getElementById('cv'),c=cv.getContext('2d'),info=document.getElementById('info');
+let selected=-1;const imgs={};
+
+function dk(){return matchMedia('(prefers-color-scheme:dark)').matches}
+
+function layout(){
+const r=wrap.getBoundingClientRect();
+cv.width=r.width*devicePixelRatio;cv.height=r.height*devicePixelRatio;
+c.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+const W=r.width,H=r.height,cx=W/2,cy=H/2,R=Math.min(cx,cy)-65;
+nodes.forEach((n,i)=>{const a=(i/nodes.length)*Math.PI*2-Math.PI/2;n.px=cx+R*Math.cos(a);n.py=cy+R*Math.sin(a)});
+}
+
+function draw(){
+layout();const r=wrap.getBoundingClientRect(),W=r.width,H=r.height,d=dk();
+c.clearRect(0,0,W,H);
+
+edges.forEach(e=>{
+const a=nodes[e.from],b=nodes[e.to];
+const active=selected===-1||selected===e.from||selected===e.to;
+if(!active)return;
+const isAtk=selected===e.from;
+const alpha=selected===-1?(e.mult>=4?0.55:0.2):(isAtk?0.85:0.4);
+const c4=d?`rgba(240,149,149,${alpha})`:`rgba(226,75,74,${alpha})`;
+const c2=d?`rgba(175,169,236,${alpha})`:`rgba(83,74,183,${alpha})`;
+c.strokeStyle=e.mult>=4?c4:c2;c.lineWidth=e.mult>=4?2.5:1.2;
+const dx=b.px-a.px,dy=b.py-a.py,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,nr=26;
+const sx=a.px+ux*nr,sy=a.py+uy*nr,ex=b.px-ux*(nr+8),ey=b.py-uy*(nr+8);
+const off=5,px=-uy*off,py=ux*off;
+c.beginPath();c.moveTo(sx+px,sy+py);c.lineTo(ex+px,ey+py);c.stroke();
+c.fillStyle=c.strokeStyle;c.beginPath();
+c.moveTo(ex+px,ey+py);c.lineTo(ex+px-ux*6+uy*4,ey+py-uy*6-ux*4);c.lineTo(ex+px-ux*6-uy*4,ey+py-uy*6+ux*4);c.fill();
+if(selected!==-1&&active){
+const mx=(sx+ex)/2+px,my=(sy+ey)/2+py;
+c.font='500 11px sans-serif';c.fillStyle=d?'rgba(255,255,255,0.7)':'rgba(0,0,0,0.5)';c.textAlign='center';
+c.fillText(e.mult+'x '+e.via,mx,my-6)}
+});
+
+nodes.forEach((n,i)=>{
+const active=selected===-1||selected===i||edges.some(e=>(e.from===selected&&e.to===i)||(e.to===selected&&e.from===i));
+const na=active?1:0.15;const nr=24;
+c.beginPath();c.arc(n.px,n.py,nr,0,Math.PI*2);
+c.fillStyle=d?`rgba(40,40,38,${na})`:`rgba(255,255,255,${na})`;c.fill();
+c.strokeStyle=d?`rgba(180,178,169,${na*0.35})`:`rgba(0,0,0,${na*0.12})`;c.lineWidth=0.5;c.stroke();
+const img=imgs[n.dex];
+if(img&&img.complete&&img.naturalWidth>0){c.globalAlpha=na;c.drawImage(img,n.px-18,n.py-18,36,36);c.globalAlpha=1}
+c.font='500 11px sans-serif';c.fillStyle=d?`rgba(255,255,255,${na*0.85})`:`rgba(0,0,0,${na*0.75})`;c.textAlign='center';
+c.fillText(n.name,n.px,n.py+nr+14);
+c.font='11px sans-serif';c.fillStyle=d?`rgba(255,255,255,${na*0.4})`:`rgba(0,0,0,${na*0.35})`;
+c.fillText(n.types,n.px,n.py+nr+26);
+if(selected===i){c.beginPath();c.arc(n.px,n.py,nr+3,0,Math.PI*2);
+c.strokeStyle=d?'rgba(175,169,236,0.7)':'rgba(83,74,183,0.5)';c.lineWidth=2;c.stroke()}
+});
+}
+
+nodes.forEach(n=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>draw();img.onerror=()=>draw();
+img.src=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${n.dex}.png`;imgs[n.dex]=img});
+
+cv.addEventListener('click',e=>{
+const rect=wrap.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
+let hit=-1;nodes.forEach((n,i)=>{if(Math.hypot(mx-n.px,my-n.py)<30)hit=i});
+selected=selected===hit?-1:hit;draw();
+if(selected===-1){info.textContent='ポケモンをクリックすると攻撃有利・被弱点がハイライトされます';return}
+const s=nodes[selected];
+const atk=edges.filter(e=>e.from===selected).map(e=>nodes[e.to].name+'('+e.mult+'x '+e.via+')');
+const def=edges.filter(e=>e.to===selected).map(e=>nodes[e.from].name+'('+e.mult+'x '+e.via+')');
+info.innerHTML='<strong>'+s.name+'</strong>　'
++(atk.length?'<span style="color:var(--info-text)">攻撃有利:</span> '+atk.join(', ')+'　':'')
++(def.length?'<span style="color:var(--danger-text)">被弱点:</span> '+def.join(', '):'')
+});
+
+const cardsEl=document.getElementById('cards');
+nodes.forEach((n,i)=>{
+const atk=edges.filter(e=>e.from===i),def=edges.filter(e=>e.to===i);
+const atkTags=atk.length?atk.map(e=>{const t=nodes[e.to];const cls=e.mult>=4?'tag-atk4':'tag-atk';
+return `<span class="tag ${cls}">${t.name} ${e.mult}x<span class="via">${e.via}</span></span>`}).join(''):'<span style="font-size:11px;color:var(--text3)">-</span>';
+const defTags=def.length?def.map(e=>{const t=nodes[e.from];const cls=e.mult>=4?'tag-def4':'tag-def';
+return `<span class="tag ${cls}">${t.name} ${e.mult}x<span class="via">${e.via}</span></span>`}).join(''):'<span style="font-size:11px;color:var(--text3)">-</span>';
+const card=document.createElement('div');card.className='card';
+card.innerHTML=`<div class="card-hdr"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${n.dex}.png" onerror="this.style.display='none'"><div><div class="card-name">${n.name}</div><div class="card-types">${n.types}</div></div><div class="badges"><span class="badge b-atk">攻${atk.length}</span><span class="badge b-def">被${def.length}</span></div></div><div><div class="sec-label">攻撃有利</div><div class="tags">${atkTags}</div></div><div><div class="sec-label">被弱点</div><div class="tags">${defTags}</div></div>`;
+cardsEl.appendChild(card)});
+
+setTimeout(draw,200);window.addEventListener('resize',draw);
+</script>
+</body>
+</html>
