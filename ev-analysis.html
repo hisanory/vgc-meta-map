@@ -10,13 +10,13 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#fafaf8;--bg2:#f1efe8;--bg3:#e8e6df;--card:#fff;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;
 --s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;
---hp:#E24B4A;--atk:#EF9F27;--def:#378ADD;--spa:#534AB7;--spd:#1D9E75;--spe:#D85A30;
+--hp:#E24B4A;--atk:#EF9F27;--def:#378ADD;--spa:#534AB7;--spd:#1D9E75;--spe:#D4537E;
 --up-bg:#EAF3DE;--up-text:#27500A;--hot-bg:#FAEEDA;--hot-text:#633806;
 --purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
 --recommend-bg:#E1F5EE;--recommend-text:#085041;--alert-bg:#FBEAF0;--alert-text:#72243E}
 @media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--bg3:#3a3a37;--card:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;
 --s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;
---hp:#F09595;--atk:#FAC775;--def:#85B7EB;--spa:#AFA9EC;--spd:#5DCAA5;--spe:#F0997B;
+--hp:#F09595;--atk:#FAC775;--def:#85B7EB;--spa:#AFA9EC;--spd:#5DCAA5;--spe:#ED93B1;
 --up-bg:#173404;--up-text:#C0DD97;--hot-bg:#412402;--hot-text:#FAC775;
 --purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
 --recommend-bg:#04342C;--recommend-text:#9FE1CB;--alert-bg:#4B1528;--alert-text:#ED93B1}}
@@ -202,7 +202,7 @@ details summary{font-size:12px;color:var(--purple);cursor:pointer;padding:4px 0}
   <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F2788;border:1px solid #EF9F27"></span>こうげき</span>
   <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD88;border:1px solid #378ADD"></span>ぼうぎょ</span>
   <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E7588;border:1px solid #1D9E75"></span>とくぼう</span>
-  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#D85A3088;border:1px solid #D85A30"></span>すばやさ</span>
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#D4537E88;border:1px solid #D4537E"></span>すばやさ</span>
 </div>
 <div style="font-size:12px;color:var(--text2);margin-bottom:12px">同一ポケモンのEV配分が環境の進行でどう変化したかを可視化。積み上げ棒グラフで合計66の内訳を比較。</div>
 
@@ -267,7 +267,7 @@ function evChart(id, labels, hp, atk, def, spd, spe) {
         { label: 'こうげき', data: atk, backgroundColor: '#EF9F2788', borderColor: '#EF9F27', borderWidth: 1 },
         { label: 'ぼうぎょ', data: def, backgroundColor: '#378ADD88', borderColor: '#378ADD', borderWidth: 1 },
         { label: 'とくぼう', data: spd, backgroundColor: '#1D9E7588', borderColor: '#1D9E75', borderWidth: 1 },
-        { label: 'すばやさ', data: spe, backgroundColor: '#D85A3088', borderColor: '#D85A30', borderWidth: 1 },
+        { label: 'すばやさ', data: spe, backgroundColor: '#D4537E88', borderColor: '#D4537E', borderWidth: 1 },
       ]
     },
     options: {
