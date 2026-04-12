@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta property="og:title" content="レギュM-A 努力値考察">
+<meta property="og:description" content="構築別の努力値比較と調整意図（PJCS2026予選環境）">
+<title>レギュM-A 努力値考察</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf8;--bg2:#f1efe8;--bg3:#e8e6df;--card:#fff;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;
+--s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;
+--hp:#E24B4A;--atk:#EF9F27;--def:#378ADD;--spa:#534AB7;--spd:#1D9E75;--spe:#D85A30;
+--up-bg:#EAF3DE;--up-text:#27500A;--hot-bg:#FAEEDA;--hot-text:#633806;
+--purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
+--recommend-bg:#E1F5EE;--recommend-text:#085041;--alert-bg:#FBEAF0;--alert-text:#72243E}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--bg3:#3a3a37;--card:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;
+--s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;
+--hp:#F09595;--atk:#FAC775;--def:#85B7EB;--spa:#AFA9EC;--spd:#5DCAA5;--spe:#F0997B;
+--up-bg:#173404;--up-text:#C0DD97;--hot-bg:#412402;--hot-text:#FAC775;
+--purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
+--recommend-bg:#04342C;--recommend-text:#9FE1CB;--alert-bg:#4B1528;--alert-text:#ED93B1}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans",sans-serif;max-width:860px;margin:0 auto;padding:20px 16px}
+h1{font-size:20px;font-weight:500;margin-bottom:2px}
+.subtitle{font-size:12px;color:var(--text3);margin-bottom:20px}
+.section-title{font-size:16px;font-weight:500;margin:28px 0 12px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+img.sp{width:20px;height:20px;image-rendering:pixelated;vertical-align:middle;flex-shrink:0}
+img.sp-lg{width:40px;height:40px;image-rendering:pixelated}
+.mon{font-size:12px;background:var(--bg2);color:var(--text2);padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;line-height:1.4}
+.mon.highlight{background:var(--hot-bg);color:var(--hot-text)}
+.pokemon-section{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.pokemon-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pokemon-name{font-size:16px;font-weight:500}
+.pokemon-types{font-size:11px;color:var(--text3)}
+.ev-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.ev-table th{text-align:left;padding:6px 8px;border-bottom:0.5px solid var(--border);color:var(--text3);font-weight:400;white-space:nowrap}
+.ev-table td{padding:6px 8px;border-bottom:0.5px solid var(--border)}
+.ev-table tr:last-child td{border-bottom:none}
+.ev-cell{display:flex;align-items:center;gap:4px}
+.ev-bar{height:4px;border-radius:2px;min-width:2px}
+.ev-val{font-size:11px;min-width:20px}
+.ev-max{font-weight:500}
+.stat-hp{color:var(--hp)}.stat-atk{color:var(--atk)}.stat-def{color:var(--def)}.stat-spa{color:var(--spa)}.stat-spd{color:var(--spd)}.stat-spe{color:var(--spe)}
+.nature-tag{font-size:10px;padding:1px 5px;border-radius:4px;background:var(--purple-bg);color:var(--purple-text)}
+.source-tag{font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg2);color:var(--text3)}
+.key-insight{background:var(--bg2);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7;color:var(--text2)}
+.key-insight strong{color:var(--text);font-weight:500}
+.recommend-box{background:var(--recommend-bg);color:var(--recommend-text);border-radius:12px;padding:14px 18px;margin:12px 0}
+.recommend-box .label{font-size:11px;font-weight:500;margin-bottom:6px}
+.recommend-box .content{font-size:13px;line-height:1.7}
+.nav{display:flex;gap:8px;margin-bottom:16px;font-size:12px}
+.nav a{color:var(--purple);text-decoration:none;padding:4px 12px;border:0.5px solid var(--border);border-radius:6px}
+.footer{font-size:11px;color:var(--text3);text-align:center;margin-top:32px;padding-top:12px;border-top:0.5px solid var(--border)}
+details{margin:6px 0}
+details summary{font-size:12px;color:var(--purple);cursor:pointer;padding:4px 0}
+</style>
+</head>
+<body>
+
+<h1>レギュM-A 努力値考察</h1>
+<p class="subtitle">構築別EV比較 ｜ ソース: VGCPastes / #強そうなチーム ｜ 最終更新: 2026-04-12</p>
+<div class="nav"><a href="index.html">← 戦略ボード</a><a href="teams.html">参考チーム集</a></div>
+
+<div class="recommend-box">
+  <div class="label">努力値が大事な理由</div>
+  <div class="content">
+    Champions の努力値上限はSVと異なり <strong>合計66</strong>（各ステータス最大32）。SVの合計510/各252と比べて配分の自由度が低く、<strong>どこに振るかの選択がダメージに直結する</strong>。同じポケモンでも構築によって配分が大きく異なるため、コピーする際は必ずEVも確認すること。
+  </div>
+</div>
+
+<div class="section-title">オオニューラ</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="オオニューラ"><span class="pokemon-name">オオニューラ</span><span class="pokemon-types">かくとう / どく ｜ かるわざ</span>
+  </div>
+  <div class="key-insight"><strong>ほぼ全構築でAS極振り</strong> — 物理AT+先制要員としての役割が明確。持ち物（しろいハーブ or きあいのタスキ）で動きが変わる。</div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(S)</th></tr>
+    <tr><td><span class="source-tag">ビエラ</span></td><td><span class="nature-tag">ようき</span></td><td>しろいハーブ</td><td>2</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>189</td></tr>
+    <tr><td><span class="source-tag">S構築</span></td><td><span class="nature-tag">ようき</span></td><td>しろいハーブ</td><td>0</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>172(→344)</td></tr>
+    <tr><td><span class="source-tag">WyatVGC</span></td><td><span class="nature-tag">ようき</span></td><td>しろいハーブ</td><td>2</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>189</td></tr>
+    <tr><td><span class="source-tag">R構築</span></td><td><span class="nature-tag">ようき</span></td><td>きあいのタスキ</td><td>0</td><td class="ev-max">32</td><td>1</td><td>0</td><td>1</td><td class="ev-max">32</td><td>172(→344)</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> AS極振りが基本形。H2振りは奇数調整（きあいのタスキ不要時）。タスキ型はH0にしてBD最低限に回す場合もある。かるわざ発動後はS実数値が2倍になるため、おいかぜ下の最速プテラ(S200)すら抜ける。</div>
+</div>
+
+<div class="section-title">ガオガエン</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="ガオガエン"><span class="pokemon-name">ガオガエン</span><span class="pokemon-types">ほのお / あく ｜ いかく</span>
+  </div>
+  <div class="key-insight"><strong>HBD耐久型 vs HA型で分岐</strong> — サポート寄りかアタッカー寄りかで配分が真逆になる。</div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(H)</th></tr>
+    <tr><td><span class="source-tag">ビエラ</span></td><td><span class="nature-tag">いじっぱり</span></td><td>ヨプのみ</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>20</td><td>0</td><td>202</td></tr>
+    <tr><td><span class="source-tag">S構築</span></td><td><span class="nature-tag">いじっぱり</span></td><td>オボンのみ</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>16</td><td>6</td><td>202</td></tr>
+    <tr><td><span class="source-tag">フシギダネ</span></td><td><span class="nature-tag">いじっぱり</span></td><td>たべのこし</td><td class="ev-max">32</td><td>5</td><td>0</td><td>0</td><td>10</td><td>0</td><td>202</td></tr>
+    <tr><td><span class="source-tag">ふゆばれ</span></td><td><span class="nature-tag">いじっぱり</span></td><td>オボンのみ</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>10</td><td>0</td><td>202</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> H32（実数値202）は全構築共通。回復実数が最大になるオボン/たべのこしとの相性。残りをDに厚く振る（特殊環境のため）のが主流。S振りは少数派だがミラーで先にねこだましを打てる利点あり。</div>
+</div>
+
+<div class="section-title">ドドゲザン</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="ドドゲザン"><span class="pokemon-name">ドドゲザン</span><span class="pokemon-types">あく / はがね ｜ まけんき</span>
+  </div>
+  <div class="key-insight"><strong>大会勝率トップ52.8%</strong> — いかく環境でまけんき発動が頻発。HA型が主流だが持ち物で分岐。</div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(A)</th></tr>
+    <tr><td><span class="source-tag">ビエラ</span></td><td><span class="nature-tag">いじっぱり</span></td><td>くろいメガネ</td><td>17</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>17</td><td>205</td></tr>
+    <tr><td><span class="source-tag">S構築</span></td><td><span class="nature-tag">いじっぱり</span></td><td>ヨプのみ</td><td class="ev-max">32</td><td>15</td><td>0</td><td>0</td><td>0</td><td>16</td><td>187</td></tr>
+    <tr><td><span class="source-tag">R構築</span></td><td><span class="nature-tag">いじっぱり</span></td><td>ヨプのみ</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>16</td><td>0</td><td>207</td></tr>
+    <tr><td><span class="source-tag">フシギダネ</span></td><td><span class="nature-tag">いじっぱり</span></td><td>ヨプのみ</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>207</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> くろいメガネ型はA極振り+S振りで先手ふいうちの火力重視。ヨプのみ型はH極振りで格闘技を1発耐える方向。いかく環境のためまけんき+1でも十分な火力が出る（A187でも+1で280相当）。</div>
+</div>
+
+<div class="section-title">メガフラエッテ</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="フラエッテ"><span class="pokemon-name">メガフラエッテ</span><span class="pokemon-types">フェアリー ｜ フラワーベール</span>
+  </div>
+  <div class="key-insight"><strong>環境トップのメガ枠</strong> — めいそう型が主流。CS型かHC型かで使い勝手が変わる。</div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(C/S)</th></tr>
+    <tr><td><span class="source-tag">ビエラ</span></td><td><span class="nature-tag">ひかえめ</span></td><td>フラエッテナイト</td><td class="ev-max">32</td><td>0</td><td>0</td><td>15</td><td>0</td><td>3</td><td>176/115</td></tr>
+    <tr><td><span class="source-tag">ふゆばれ</span></td><td><span class="nature-tag">ひかえめ</span></td><td>フラエッテナイト</td><td>26</td><td>0</td><td>3</td><td>25</td><td>0</td><td>12</td><td>187/124</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> ビエラ型はH32で耐久を確保しつつめいそう積みで火力を補う。ふゆばれ型はCS寄りで初動からの火力を重視。めいそう1積みでC実数値が1.5倍になるため、H振りで積む余裕を作る方が安定しやすい（初心者推奨はビエラ型）。</div>
+</div>
+
+<div class="section-title">メガリザードンY</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="リザードン"><span class="pokemon-name">メガリザードンY</span><span class="pokemon-types">ほのお / ひこう ｜ もうか→ひでり</span>
+  </div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(C/S)</th></tr>
+    <tr><td><span class="source-tag">S構築</span></td><td><span class="nature-tag">おくびょう</span></td><td>リザードナイトY</td><td>6</td><td>0</td><td>0</td><td>31</td><td>0</td><td class="ev-max">32</td><td>176/133</td></tr>
+    <tr><td><span class="source-tag">フシギダネ</span></td><td><span class="nature-tag">おくびょう</span></td><td>リザードナイトY</td><td>6</td><td>0</td><td>16</td><td>0</td><td>0</td><td class="ev-max">32</td><td>176/133</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> S32（おくびょう最速）は共通。晴れ下ねっぷうの火力が十分高いためC振りよりS確保が優先される。残りをHかBに回すかは好み。B振りはいかく込みで物理耐久を確保する型。</div>
+</div>
+
+<div class="section-title">メガスターミー（WyatVGC構築）</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="スターミー"><span class="pokemon-name">メガスターミー</span><span class="pokemon-types">みず / エスパー ｜ しぜんかいふく</span>
+  </div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>技</th></tr>
+    <tr><td><span class="source-tag">WyatVGC</span></td><td><span class="nature-tag">いじっぱり</span></td><td>スターミナイト</td><td>2</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>アクアブレイク/サイコカッター/トリプルアクセル/まもる</td></tr>
+  </table>
+  <div class="key-insight"><strong>注目:</strong> 物理型メガスターミー。特殊型と思いきやAS物理で意表を突く。アクジェ（アクアジェット）連打が強いとのじぇらーるメモと一致。上位で増加中。</div>
+</div>
+
+<div class="section-title">プテラ（非メガ・サポート型）</div>
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="プテラ"><span class="pokemon-name">プテラ</span><span class="pokemon-types">いわ / ひこう ｜ きんちょうかん</span>
+  </div>
+  <table class="ev-table">
+    <tr><th>構築</th><th>性格</th><th>持ち物</th><th class="stat-hp">H</th><th class="stat-atk">A</th><th class="stat-def">B</th><th class="stat-spa">C</th><th class="stat-spd">D</th><th class="stat-spe">S</th><th>実数値(S)</th></tr>
+    <tr><td><span class="source-tag">ビエラ</span></td><td><span class="nature-tag">ようき</span></td><td>きあいのタスキ</td><td>2</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>200</td></tr>
+    <tr><td><span class="source-tag">ふゆばれ</span></td><td><span class="nature-tag">ようき</span></td><td>きあいのタスキ</td><td>2</td><td class="ev-max">32</td><td>0</td><td>0</td><td>0</td><td class="ev-max">32</td><td>200</td></tr>
+  </table>
+  <div class="key-insight"><strong>調整意図:</strong> 全構築でAS最速+タスキ。おいかぜ始動が最優先の役割のため生存よりS確保。S200は環境最速帯（かるわざ発動前オオニューラを抜ける）。ダブルウイング+いわなだれで両縛りが可能。</div>
+</div>
+
+<div class="section-title">素早さライン早見表</div>
+<div class="pokemon-section">
+  <table class="ev-table">
+    <tr><th>S実数値</th><th>ポケモン（条件）</th><th>備考</th></tr>
+    <tr><td style="font-weight:500">344-378</td><td>オオニューラ（かるわざ発動後）</td><td>環境最速。まもるで1ターンしのぐ意味なし</td></tr>
+    <tr><td style="font-weight:500">200</td><td>プテラ（最速）</td><td>おいかぜ始動。メガプテラも同速帯</td></tr>
+    <tr><td style="font-weight:500">189</td><td>オオニューラ（最速・発動前）</td><td>プテラに抜かれる点に注意</td></tr>
+    <tr><td style="font-weight:500">172</td><td>オオニューラ（準速・発動前）</td><td>発動後344で十分。H振り可能</td></tr>
+    <tr><td>168</td><td>メガマフォクシー（最速推定）</td><td>おくびょう想定</td></tr>
+    <tr><td>143</td><td>ガブリアス（準速推定）</td><td>スカーフで214</td></tr>
+    <tr><td>133</td><td>メガリザードンY（最速）</td><td>おくびょうS32</td></tr>
+    <tr><td>124</td><td>メガフラエッテ（ふゆばれ型）</td><td>ひかえめS12</td></tr>
+    <tr><td>115</td><td>メガフラエッテ（ビエラ型）</td><td>ひかえめS3</td></tr>
+    <tr><td>90</td><td>ヤバソチャ</td><td>トリル下で最速帯に</td></tr>
+    <tr><td>87</td><td>ドドゲザン（ビエラ型S17）</td><td>遅め。ふいうちで先制</td></tr>
+    <tr><td>80</td><td>ガオガエン（S振りなし）</td><td>ねこだましミラーで負ける</td></tr>
+  </table>
+</div>
+
+<div class="section-title">pokepastから努力値を抽出する方法</div>
+<div class="key-insight">
+  <strong>VGCPastes Repositoryの使い方:</strong><br>
+  1. <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTXHOfUSKTZyVoxF7BO-XIEqtbrsq1OSh_4bSaO0bhAMHqtsvYqM_4eZWIMqdZ--SKCb86EXuk75o1i/pubhtml?gid=791705272&single=true" style="color:var(--purple)">スプレッドシート</a>のpokepast列からURLをコピー<br>
+  2. pokepast.esを開くと各ポケモンのEVs行に努力値が記載されている<br>
+  3. 例: <code>EVs: 2 HP / 32 Atk / 32 Spe</code> → H2 A32 S32<br>
+  4. Champions独自仕様: 合計上限66、各ステータス最大32
+</div>
+
+<div class="section-title">努力値変遷チャート（Date Shared順）</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin:0 0 4px;font-size:11px;color:var(--text2)">
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A88;border:1px solid #E24B4A"></span>HP</span>
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F2788;border:1px solid #EF9F27"></span>こうげき</span>
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD88;border:1px solid #378ADD"></span>ぼうぎょ</span>
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E7588;border:1px solid #1D9E75"></span>とくぼう</span>
+  <span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#D85A3088;border:1px solid #D85A30"></span>すばやさ</span>
+</div>
+<div style="font-size:12px;color:var(--text2);margin-bottom:12px">同一ポケモンのEV配分が環境の進行でどう変化したかを可視化。積み上げ棒グラフで合計66の内訳を比較。</div>
+
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="ドドゲザン"><span class="pokemon-name">ドドゲザン EV変遷</span><span class="pokemon-types">A極振り型 → H耐久型へシフト</span>
+  </div>
+  <div style="position:relative;width:100%;height:260px"><canvas id="evDodgezan" role="img" aria-label="ドドゲザンEV変遷。4/9はA32攻撃型、4/10以降はH32耐久型にシフト。">ドドゲザンEV変遷</canvas></div>
+  <div class="key-insight" style="margin-top:8px"><strong>読み取れる変化:</strong> 初日(4/9)はくろいメガネ+A32の火力重視。翌日以降ヨプのみ+H32の耐久型に収束。いかく環境でまけんき+1のA補正が十分と判明し、自前のA振りが不要になった。D振りは4/11以降に増加（メガフラエッテ環境への適応）。</div>
+</div>
+
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="ガオガエン"><span class="pokemon-name">ガオガエン EV変遷</span><span class="pokemon-types">HD配分の微調整が環境適応を示す</span>
+  </div>
+  <div style="position:relative;width:100%;height:260px"><canvas id="evGaogaen" role="img" aria-label="ガオガエンEV変遷。H32は共通、D振りの量が日付で変動。">ガオガエンEV変遷</canvas></div>
+  <div class="key-insight" style="margin-top:8px"><strong>読み取れる変化:</strong> H32は全期間共通（回復実数の最適化）。4/9のD20→4/10以降D10〜16へ減少し、AやSに振る余裕を確保。S6振り(S構築)はガオガエンミラーで先にねこだましを打つ意図。</div>
+</div>
+
+<div class="pokemon-section">
+  <div class="pokemon-header">
+    <img class="sp-lg" data-mon-lg="オオニューラ"><span class="pokemon-name">オオニューラ EV変遷</span><span class="pokemon-types">AS極振りで安定 → 持ち物が分岐</span>
+  </div>
+  <div style="position:relative;width:100%;height:260px"><canvas id="evSneasler" role="img" aria-label="オオニューラEV変遷。全期間でAS極振りが安定。持ち物がハーブからタスキへ分岐。">オオニューラEV変遷</canvas></div>
+  <div class="key-insight" style="margin-top:8px"><strong>読み取れる変化:</strong> A32+S32は全期間で不動。変化は持ち物に表れる: 初期はしろいハーブ（かるわざ発動トリガー）が主流→4/11以降きあいのタスキ型が増加。タスキ型は対プテラ・対先制技への保険で、余った2EVをBDに回す。</div>
+</div>
+
+<div class="footer">
+  レギュレーションM-A 努力値考察 ｜ ソース: VGCPastes / #強そうなチーム / pokepast.es ｜ Pokémon Champions
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DEX={
+"マフォクシー":655,"ゲンガー":94,"フラエッテ":670,"サーナイト":282,
+"リザードン":6,"ユキメノコ":478,"カイリュー":149,"ガルーラ":115,
+"スターミー":121,"プテラ":142,"バンギラス":248,"キラフロル":970,
+"ゴルーグ":623,"オオニューラ":903,"ガオガエン":727,"ドドゲザン":983,
+"エルフーン":547,"ロトム":479,"ジャラランガ":784,"ミロカロス":350,
+"ガブリアス":445,"ペリッパー":279,"ヤバソチャ":1013,"ギルガルド":681,
+"ジュラルドン":884,"フラージェス":671,"ヌメルゴン":706,"カモネギ":865,
+"イダイトウ":902,"イッカネズミ":925,"フシギバナ":3,"ブリジュラス":1018,
+"リキキリン":981
+};
+const BASE="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+document.querySelectorAll('[data-mon]').forEach(el=>{
+const n=el.getAttribute('data-mon'),d=DEX[n];if(!d)return;
+const i=document.createElement('img');i.className='sp';i.src=BASE+d+'.png';i.alt=n;
+i.onerror=function(){this.style.display='none'};el.insertBefore(i,el.firstChild)});
+document.querySelectorAll('[data-mon-lg]').forEach(el=>{
+const n=el.getAttribute('data-mon-lg'),d=DEX[n];if(!d)return;
+el.src=BASE+d+'.png';el.alt=n;
+el.onerror=function(){this.style.display='none'}});
+
+function evChart(id, labels, hp, atk, def, spd, spe) {
+  new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'HP', data: hp, backgroundColor: '#E24B4A88', borderColor: '#E24B4A', borderWidth: 1 },
+        { label: 'こうげき', data: atk, backgroundColor: '#EF9F2788', borderColor: '#EF9F27', borderWidth: 1 },
+        { label: 'ぼうぎょ', data: def, backgroundColor: '#378ADD88', borderColor: '#378ADD', borderWidth: 1 },
+        { label: 'とくぼう', data: spd, backgroundColor: '#1D9E7588', borderColor: '#1D9E75', borderWidth: 1 },
+        { label: 'すばやさ', data: spe, backgroundColor: '#D85A3088', borderColor: '#D85A30', borderWidth: 1 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { stacked: true, ticks: { font: { size: 10 }, maxRotation: 0, autoSkip: false,
+          callback: function(v, i) { return labels[i].split('\n'); } } },
+        y: { stacked: true, max: 66, title: { display: true, text: 'EV (max 66)', font: { size: 11 } } }
+      },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.raw } } }
+    }
+  });
+}
+
+evChart('evDodgezan',
+  ['4/9 ビエラ\n(くろいメガネ)', '4/10 S構築\n(ヨプのみ)', '4/10 フシギダネ\n(ヨプのみ)', '4/11 R構築\n(ヨプのみ)', '4/12 WyatVGC\n(ヨプのみ)'],
+  [17, 32, 32, 32, 32],
+  [32, 15, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 16, 26],
+  [17, 16, 0, 0, 6]
+);
+
+evChart('evGaogaen',
+  ['4/9 ビエラ\n(ヨプのみ)', '4/10 S構築\n(オボンのみ)', '4/10 フシギダネ\n(たべのこし)', '4/10 ふゆばれ\n(オボンのみ)'],
+  [32, 32, 32, 32],
+  [0, 0, 5, 0],
+  [0, 0, 0, 0],
+  [20, 16, 10, 10],
+  [0, 6, 0, 0]
+);
+
+evChart('evSneasler',
+  ['4/9 ビエラ\n(しろいハーブ)', '4/10 S構築\n(しろいハーブ)', '4/11 R構築\n(きあいのタスキ)', '4/12 WyatVGC\n(しろいハーブ)'],
+  [2, 0, 0, 2],
+  [32, 32, 32, 32],
+  [0, 0, 1, 0],
+  [0, 0, 1, 0],
+  [32, 32, 32, 32]
+);
+</script>
+
+</body>
+</html>
