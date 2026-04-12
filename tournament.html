@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta property="og:title" content="First Tour $500 大会分析">
+<meta property="og:description" content="Pokemon Champions First Tour Top入賞チーム＋使用率分析">
+<title>First Tour $500 大会分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf8;--bg2:#f1efe8;--bg3:#e8e6df;--card:#fff;--text:#1a1a1a;--text2:#5f5e5a;--text3:#888780;--border:#d3d1c7;
+--s:#E24B4A;--a:#EF9F27;--b:#378ADD;--c:#1D9E75;--d:#888780;
+--up-bg:#EAF3DE;--up-text:#27500A;--down-bg:#FCEBEB;--down-text:#791F1F;--new-bg:#E6F1FB;--new-text:#0C447C;--hot-bg:#FAEEDA;--hot-text:#633806;
+--purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
+--gold-bg:#FAEEDA;--gold-text:#633806;--silver-bg:#F1EFE8;--silver-text:#5F5E5A;--bronze-bg:#FAECE7;--bronze-text:#712B13;
+--recommend-bg:#E1F5EE;--recommend-text:#085041;--alert-bg:#FBEAF0;--alert-text:#72243E}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a18;--bg2:#2c2c2a;--bg3:#3a3a37;--card:#2c2c2a;--text:#e8e8e4;--text2:#b4b2a9;--text3:#888780;--border:#444441;
+--s:#F09595;--a:#FAC775;--b:#85B7EB;--c:#5DCAA5;--d:#888780;
+--up-bg:#173404;--up-text:#C0DD97;--down-bg:#501313;--down-text:#F09595;--new-bg:#042C53;--new-text:#85B7EB;--hot-bg:#412402;--hot-text:#FAC775;
+--purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
+--gold-bg:#412402;--gold-text:#FAC775;--silver-bg:#3a3a37;--silver-text:#b4b2a9;--bronze-bg:#4A1B0C;--bronze-text:#F0997B;
+--recommend-bg:#04342C;--recommend-text:#9FE1CB;--alert-bg:#4B1528;--alert-text:#ED93B1}}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans",sans-serif;max-width:860px;margin:0 auto;padding:20px 16px}
+h1{font-size:20px;font-weight:500;margin-bottom:2px}
+.subtitle{font-size:12px;color:var(--text3);margin-bottom:20px}
+.section-title{font-size:16px;font-weight:500;margin:28px 0 12px;padding-bottom:6px;border-bottom:0.5px solid var(--border)}
+img.sp{width:20px;height:20px;image-rendering:pixelated;vertical-align:middle;flex-shrink:0}
+.mon{font-size:12px;background:var(--bg2);color:var(--text2);padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;line-height:1.4}
+.mon.highlight{background:var(--hot-bg);color:var(--hot-text)}
+.mon.mega{background:var(--alert-bg);color:var(--alert-text)}
+.trend-tag{font-size:10px;padding:1px 5px;border-radius:4px;margin-left:2px}
+.trend-up{background:var(--up-bg);color:var(--up-text)}
+.trend-new{background:var(--new-bg);color:var(--new-text)}
+.trend-hot{background:var(--hot-bg);color:var(--hot-text)}
+.team-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.team-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.team-name{font-size:14px;font-weight:500}
+.team-meta{font-size:11px;color:var(--text3)}
+.team-badge{font-size:10px;padding:2px 8px;border-radius:6px}
+.team-mons{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.team-detail{font-size:12px;color:var(--text2);line-height:1.6}
+.team-detail table{width:100%;border-collapse:collapse;font-size:11px;margin:6px 0}
+.team-detail th{text-align:left;color:var(--text3);font-weight:400;padding:4px 6px;border-bottom:0.5px solid var(--border);white-space:nowrap}
+.team-detail td{padding:4px 6px;border-bottom:0.5px solid var(--border)}
+.team-detail tr:last-child td{border-bottom:none}
+.rating-bar{display:flex;align-items:center;gap:6px;margin:3px 0}
+.rating-bar .name{font-size:12px;color:var(--text2);width:100px;text-align:right;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;gap:3px}
+.rating-bar .bar-wrap{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.rating-bar .bar{height:100%;border-radius:4px}
+.rating-bar .val{font-size:11px;color:var(--text3);width:50px;text-align:right}
+.wr{font-size:10px;padding:1px 5px;border-radius:4px;margin-left:3px}
+.wr-h{background:var(--up-bg);color:var(--up-text)}
+.wr-l{background:var(--down-bg);color:var(--down-text)}
+.key-insight{background:var(--bg2);border-radius:10px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7;color:var(--text2)}
+.key-insight strong{color:var(--text);font-weight:500}
+details{margin:4px 0}
+details summary{font-size:12px;color:var(--purple);cursor:pointer;padding:4px 0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin:12px 0}
+.metric{background:var(--bg2);border-radius:8px;padding:10px 12px}
+.metric .label{font-size:11px;color:var(--text3)}
+.metric .value{font-size:20px;font-weight:500;margin-top:2px}
+.nav{display:flex;gap:8px;margin-bottom:16px;font-size:12px}
+.nav a{color:var(--purple);text-decoration:none;padding:4px 12px;border:0.5px solid var(--border);border-radius:6px}
+.footer{font-size:11px;color:var(--text3);text-align:center;margin-top:32px;padding-top:12px;border-top:0.5px solid var(--border)}
+</style>
+</head>
+<body>
+
+<h1>First Tour $500 大会分析</h1>
+<p class="subtitle">Pokemon Champions First Tour $500 Prize Pool ｜ 532名参加 ｜ <a href="https://play.limitlesstcg.com/tournament/69c6a52bd478313a15a33fd4/standings" style="color:var(--purple)">Limitless</a></p>
+<div class="nav"><a href="index.html">← 戦略ボード</a><a href="teams.html">参考チーム集</a><a href="ev-analysis.html">努力値考察</a></div>
+
+<div class="metrics">
+  <div class="metric"><div class="label">参加者</div><div class="value">532</div></div>
+  <div class="metric"><div class="label">優勝</div><div class="value" style="font-size:14px">gamblingvgc92</div></div>
+  <div class="metric"><div class="label">優勝戦績</div><div class="value">13-2</div></div>
+  <div class="metric"><div class="label">使用率1位</div><div class="value" style="font-size:14px">ガオガエン</div></div>
+  <div class="metric"><div class="label">勝率1位</div><div class="value" style="font-size:14px">ドドゲザン</div></div>
+</div>
+
+<div class="section-title">環境総評</div>
+<div class="key-insight">
+  <strong>メガ枠はマフォクシー・リザードンY・フラエッテ・ユキメノコ・ガルーラの5強。</strong>優勝はメガマフォクシー＋ピクシー（このゆびとまれ）という介護型。準優勝・3位はメガリザードンY＋エルフーン（おいかぜ）の晴れ軸。4位はメガフラエッテ＋ファイアロー（おいかぜ）。5位はメガユキメノコ＋オーロラベール。メガ選択が完全に多様化しており、メガシンカの性能よりも周囲のサポート構成で勝負が決まる環境。<br><br>
+  <strong>非メガの必須枠: オオニューラ（36.8%）＋ドドゲザン（22.4%/勝率52.8%）。</strong>この2体はTop5全チームに採用。ガオガエン（53.8%）は使用率1位だが勝率50%以下で、採用率の高さ＝勝率ではない。<br><br>
+  <strong>サポート枠の多様性が高い。</strong>ピクシー（このゆびとまれ）、エルフーン（いたずらごころおいかぜ）、リキキリン（トリル封印）、ヤバソチャ（いかりのこな+トリル）、イッカネズミ（フレンドガード）と5種のサポートが上位に分布。
+</div>
+
+<div class="section-title">Top5 チーム詳細</div>
+
+<div class="team-card" style="border-left:3px solid var(--a);border-radius:0 12px 12px 0">
+  <div class="team-header">
+    <span class="team-badge" style="background:var(--gold-bg);color:var(--gold-text)">1st</span>
+    <span class="team-name">gamblingvgc92</span>
+    <span class="team-meta">13-2-0 ｜ メガマフォクシー + ピクシー介護</span>
+  </div>
+  <div class="team-mons">
+    <span class="mon mega" data-mon="マフォクシー">メガマフォクシー</span>
+    <span class="mon" data-mon="オオニューラ">オオニューラ</span>
+    <span class="mon" data-mon="ドドゲザン">ドドゲザン</span>
+    <span class="mon highlight">ピクシー</span>
+    <span class="mon" data-mon="カイリュー">カイリュー</span>
+    <span class="mon" data-mon="イダイトウ">イダイトウ</span>
+  </div>
+  <details><summary>詳細を見る</summary>
+  <div class="team-detail">
+    <table>
+      <tr><th>ポケモン</th><th>持ち物</th><th>特性</th><th>技</th></tr>
+      <tr><td data-mon="マフォクシー">マフォクシー</td><td>マフォクシナイト</td><td>もうか</td><td>ねっぷう / サイコキネシス / みがわり / まもる</td></tr>
+      <tr><td data-mon="オオニューラ">オオニューラ</td><td>きあいのタスキ</td><td>かるわざ</td><td>フェイタルクロー / インファイト / ねこだまし / まもる</td></tr>
+      <tr><td data-mon="ドドゲザン">ドドゲザン</td><td>くろいメガネ</td><td>まけんき</td><td>つるぎのまい / ふいうち / ドゲザン / まもる</td></tr>
+      <tr><td>ピクシー</td><td>オボンのみ</td><td>てんねん</td><td>このゆびとまれ / てだすけ / ムーンフォース / まもる</td></tr>
+      <tr><td data-mon="カイリュー">カイリュー</td><td>ラムのみ</td><td>マルチスケイル</td><td>スケイルショット / しんそく / くろいきり / まもる</td></tr>
+      <tr><td data-mon="イダイトウ">イダイトウ</td><td>こだわりスカーフ</td><td>てきおうりょく</td><td>ウェーブタックル / クイックターン / おはかまいり / アクアジェット</td></tr>
+    </table>
+    <div style="color:var(--text3)"><strong>コンセプト:</strong> ピクシーこのゆびとまれ＋マフォクシーみがわり→安全にみがわりを張り特殊高火力で制圧。てんねん（能力変化無視）でドドゲザンのつるぎのまいを無視できる点も防御面で強力。カイリューくろいきりで相手の積みをリセット。イダイトウスカーフおはかまいりで後半のスイーパー。</div>
+  </div>
+  </details>
+</div>
+
+<div class="team-card" style="border-left:3px solid var(--d);border-radius:0 12px 12px 0">
+  <div class="team-header">
+    <span class="team-badge" style="background:var(--silver-bg);color:var(--silver-text)">2nd</span>
+    <span class="team-name">BIlllmads</span>
+    <span class="team-meta">12-3-0 ｜ メガリザードンY 晴れ + トリル封印</span>
+  </div>
+  <div class="team-mons">
+    <span class="mon mega" data-mon="リザードン">メガリザードンY</span>
+    <span class="mon" data-mon="エルフーン">エルフーン</span>
+    <span class="mon highlight" data-mon="リキキリン">リキキリン</span>
+    <span class="mon" data-mon="オオニューラ">オオニューラ</span>
+    <span class="mon" data-mon="ガブリアス">ガブリアス(スカーフ)</span>
+    <span class="mon" data-mon="ドドゲザン">ドドゲザン</span>
+  </div>
+  <details><summary>詳細を見る</summary>
+  <div class="team-detail">
+    <table>
+      <tr><th>ポケモン</th><th>持ち物</th><th>特性</th><th>技</th></tr>
+      <tr><td data-mon="リザードン">リザードン</td><td>リザードナイトY</td><td>サンパワー</td><td>ねっぷう / オーバーヒート / ソーラービーム / まもる</td></tr>
+      <tr><td data-mon="エルフーン">エルフーン</td><td>きあいのタスキ</td><td>いたずらごころ</td><td>ムーンフォース / おいかぜ / まもる / アンコール</td></tr>
+      <tr><td data-mon="リキキリン">リキキリン</td><td>オボンのみ</td><td>アーマーテール</td><td>ハイパーボイス / サイコキネシス / トリックルーム / さいはい</td></tr>
+      <tr><td data-mon="オオニューラ">オオニューラ</td><td>しろいハーブ</td><td>かるわざ</td><td>インファイト / ねこだまし / フェイタルクロー / まもる</td></tr>
+      <tr><td data-mon="ガブリアス">ガブリアス</td><td>こだわりスカーフ</td><td>さめはだ</td><td>ドラゴンクロー / いわなだれ / じしん / じだんだ</td></tr>
+      <tr><td data-mon="ドドゲザン">ドドゲザン</td><td>こわもてプレート</td><td>まけんき</td><td>ドゲザン / ふいうち / つるぎのまい / まもる</td></tr>
+    </table>
+    <div style="color:var(--text3)"><strong>コンセプト:</strong> エルフーンいたずらごころおいかぜ→リザードンY晴れ制圧。リキキリン（アーマーテール＝先制技無効化）のトリックルーム＋さいはいでリザードンに2回行動させるコンボ。さいはいは同ターンにもう1回技を使わせる新技で、リザードンの連続ねっぷうが強烈。ガブリアスカーフで上からいわなだれの怯み撒き。</div>
+  </div>
+  </details>
+</div>
+
+<div class="team-card" style="border-left:3px solid var(--bronze-text);border-radius:0 12px 12px 0">
+  <div class="team-header">
+    <span class="team-badge" style="background:var(--bronze-bg);color:var(--bronze-text)">3rd</span>
+    <span class="team-name">sempra</span>
+    <span class="team-meta">11-3-0 ｜ メガリザードンY + メガガルーラ 2メガ</span>
+  </div>
+  <div class="team-mons">
+    <span class="mon mega" data-mon="リザードン">メガリザードンY</span>
+    <span class="mon mega" data-mon="ガルーラ">メガガルーラ</span>
+    <span class="mon" data-mon="エルフーン">エルフーン</span>
+    <span class="mon" data-mon="イダイトウ">イダイトウ(スカーフ)</span>
+    <span class="mon" data-mon="リキキリン">リキキリン</span>
+    <span class="mon" data-mon="オオニューラ">オオニューラ</span>
+  </div>
+  <details><summary>詳細を見る</summary>
+  <div class="team-detail">
+    <table>
+      <tr><th>ポケモン</th><th>持ち物</th><th>特性</th><th>技</th></tr>
+      <tr><td data-mon="リザードン">リザードン</td><td>リザードナイトY</td><td>もうか</td><td>ウェザーボール / ねっぷう / ソーラービーム / まもる</td></tr>
+      <tr><td data-mon="エルフーン">エルフーン</td><td>きあいのタスキ</td><td>いたずらごころ</td><td>ムーンフォース / おいかぜ / にほんばれ / アンコール</td></tr>
+      <tr><td data-mon="イダイトウ">イダイトウ</td><td>こだわりスカーフ</td><td>てきおうりょく</td><td>ウェーブタックル / アクアジェット / おはかまいり / こごえるかぜ</td></tr>
+      <tr><td data-mon="リキキリン">リキキリン</td><td>オボンのみ</td><td>アーマーテール</td><td>サイコキネシス / ハイパーボイス / てだすけ / トリックルーム</td></tr>
+      <tr><td data-mon="ガルーラ">ガルーラ</td><td>ガルーラナイト</td><td>きもったま</td><td>ねこだまし / すてみタックル / ドレインパンチ / ふいうち</td></tr>
+      <tr><td data-mon="オオニューラ">オオニューラ</td><td>しろいハーブ</td><td>かるわざ</td><td>ねこだまし / インファイト / フェイタルクロー / のどをつく</td></tr>
+    </table>
+    <div style="color:var(--text3)"><strong>コンセプト:</strong> リザードンY＋ガルーラの2メガ構築。じぇらーるメモで言及された「2メガ構築説」の実証例。ガルーラのきもったまねこだまし（ゴーストにも当たる）＋オオニューラねこだましで2体同時にねこだまし可能。エルフーンにほんばれでリザードンの天候を上書き対策。</div>
+  </div>
+  </details>
+</div>
+
+<div class="team-card">
+  <div class="team-header">
+    <span class="team-badge" style="background:var(--bg2);color:var(--text3)">4th</span>
+    <span class="team-name">Wb_vg</span>
+    <span class="team-meta">11-3-0 ｜ メガフラエッテ + ファイアロー</span>
+  </div>
+  <div class="team-mons">
+    <span class="mon mega" data-mon="フラエッテ">メガフラエッテ</span>
+    <span class="mon highlight">ファイアロー</span>
+    <span class="mon">アシレーヌ</span>
+    <span class="mon">+3（データ不完全）</span>
+  </div>
+  <div class="team-detail" style="color:var(--text3)">ファイアローのはやてのつばさ（飛行技が先制）＋おいかぜ始動。プテラの代替としてファイアローを使う構築。フラエッテめいそうで制圧。アシレーヌはフェアリー打点の補完。<a href="https://play.limitlesstcg.com/tournament/69c6a52bd478313a15a33fd4/player/wb_vg/teamlist" style="color:var(--purple)">→ Limitlessで全容を見る</a></div>
+</div>
+
+<div class="team-card">
+  <div class="team-header">
+    <span class="team-badge" style="background:var(--bg2);color:var(--text3)">5th</span>
+    <span class="team-name">Rheiyne</span>
+    <span class="team-meta">11-2-0 ｜ メガユキメノコ + オーロラベール</span>
+  </div>
+  <div class="team-mons">
+    <span class="mon mega" data-mon="ユキメノコ">メガユキメノコ</span>
+    <span class="mon highlight">イルカマン</span>
+    <span class="mon" data-mon="ドドゲザン">ドドゲザン</span>
+    <span class="mon">ヒスイウインディ</span>
+    <span class="mon" data-mon="ヤバソチャ">ヤバソチャ</span>
+    <span class="mon" data-mon="オオニューラ">オオニューラ</span>
+  </div>
+  <details><summary>詳細を見る</summary>
+  <div class="team-detail">
+    <table>
+      <tr><th>ポケモン</th><th>持ち物</th><th>特性</th><th>技</th></tr>
+      <tr><td data-mon="ユキメノコ">ユキメノコ</td><td>ユキメノコナイト</td><td>ゆきがくれ</td><td>ふぶき / シャドーボール / オーロラベール / まもる</td></tr>
+      <tr><td>イルカマン</td><td>しんぴのしずく</td><td>マイティチェンジ</td><td>ジェットパンチ / ウェーブタックル / インファイト / まもる</td></tr>
+      <tr><td data-mon="ドドゲザン">ドドゲザン</td><td>くろいメガネ</td><td>まけんき</td><td>ドゲザン / つるぎのまい / ふいうち / まもる</td></tr>
+      <tr><td>ヒスイウインディ</td><td>きあいのタスキ</td><td>いかく</td><td>フレアブリッツ / いわなだれ / しんそく / まもる</td></tr>
+      <tr><td data-mon="ヤバソチャ">ヤバソチャ</td><td>オボンのみ</td><td>おもてなし</td><td>まもる / ちからをすいとる / シャカシャカほう / いかりのこな</td></tr>
+      <tr><td data-mon="オオニューラ">オオニューラ</td><td>しろいハーブ</td><td>かるわざ</td><td>まもる / インファイト / ねこだまし / フェイタルクロー</td></tr>
+    </table>
+    <div style="color:var(--text3)"><strong>コンセプト:</strong> メガユキメノコのオーロラベール（物理・特殊両方0.5倍の壁）を張り、イルカマン（マイティチェンジで交代後に超火力化）のジェットパンチ先制で殴る。ヒスイウインディのいかくで物理を受けつつ、ヤバソチャいかりのこなで特殊を吸う。じぇらーるメモで「ユキメノコ＋ミロカロスが強い」との言及と方向性が一致。</div>
+  </div>
+  </details>
+</div>
+
+<div class="section-title">大会使用率（上位20体）</div>
+<div style="font-size:11px;color:var(--text3);margin-bottom:8px">緑 = 勝率50%超 / 赤 = 50%未満</div>
+<div style="margin:8px 0">
+  <div class="rating-bar"><span class="name" data-bar="ガオガエン">ガオガエン</span><div class="bar-wrap"><div class="bar" style="width:54%;background:var(--s)"></div></div><span class="val">53.8%<span class="wr wr-l">49.9%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="オオニューラ">オオニューラ</span><div class="bar-wrap"><div class="bar" style="width:37%;background:var(--a)"></div></div><span class="val">36.8%<span class="wr wr-h">51.4%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ヤバソチャ">ヤバソチャ</span><div class="bar-wrap"><div class="bar" style="width:36%;background:var(--a)"></div></div><span class="val">36.3%<span class="wr wr-l">47.5%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ガブリアス">ガブリアス</span><div class="bar-wrap"><div class="bar" style="width:32%;background:var(--b)"></div></div><span class="val">31.8%<span class="wr wr-l">49.8%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="イダイトウ">イダイトウ</span><div class="bar-wrap"><div class="bar" style="width:24%;background:var(--b)"></div></div><span class="val">24.1%<span class="wr wr-h">51.3%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ドドゲザン">ドドゲザン</span><div class="bar-wrap"><div class="bar" style="width:22%;background:var(--b)"></div></div><span class="val">22.4%<span class="wr wr-h">52.8%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ペリッパー">ペリッパー</span><div class="bar-wrap"><div class="bar" style="width:22%;background:var(--b)"></div></div><span class="val">21.8%<span class="wr wr-l">45.5%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="エルフーン">エルフーン</span><div class="bar-wrap"><div class="bar" style="width:20%;background:var(--c)"></div></div><span class="val">20.3%<span class="wr wr-h">50.6%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ブリジュラス">ブリジュラス</span><div class="bar-wrap"><div class="bar" style="width:17%;background:var(--c)"></div></div><span class="val">16.5%<span class="wr wr-l">43.8%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="バンギラス">バンギラス</span><div class="bar-wrap"><div class="bar" style="width:15%;background:var(--c)"></div></div><span class="val">14.7%<span class="wr wr-l">48.2%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="リザードン">リザードン</span><div class="bar-wrap"><div class="bar" style="width:14%;background:var(--c)"></div></div><span class="val">13.9%<span class="wr wr-h">52.1%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="リキキリン">リキキリン</span><div class="bar-wrap"><div class="bar" style="width:14%;background:var(--c)"></div></div><span class="val">13.9%<span class="wr wr-l">48.4%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="カイリュー">カイリュー</span><div class="bar-wrap"><div class="bar" style="width:13%;background:var(--d)"></div></div><span class="val">13.2%<span class="wr wr-l">46.6%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ロトム">ロトム(水)</span><div class="bar-wrap"><div class="bar" style="width:12%;background:var(--d)"></div></div><span class="val">11.8%<span class="wr wr-l">46.9%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ゲンガー">ゲンガー</span><div class="bar-wrap"><div class="bar" style="width:9%;background:var(--d)"></div></div><span class="val">9.4%<span class="wr wr-l">48.2%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="フシギバナ">フシギバナ</span><div class="bar-wrap"><div class="bar" style="width:9%;background:var(--d)"></div></div><span class="val">8.7%<span class="wr wr-h">50.6%</span></span></div>
+  <div class="rating-bar"><span class="name" data-bar="ユキメノコ">ユキメノコ</span><div class="bar-wrap"><div class="bar" style="width:9%;background:var(--d)"></div></div><span class="val">8.7%<span class="wr wr-l">49.3%</span></span></div>
+</div>
+
+<div class="section-title">Top5から読み取れるメタの構造</div>
+<div class="key-insight">
+  <strong>1. 優勝のピクシー採用が革命的。</strong>てんねん（能力変化無視）はドドゲザンのつるぎのまいを無効化し、このゆびとまれでメガマフォクシーを完全に介護する。ガオガエンのいかくに頼らない新しい防御思想。<br><br>
+  <strong>2. 2メガ構築が実戦で結果を出した。</strong>3位のsempraがリザードンY＋ガルーラの2メガでTop4入り。ガルーラのきもったまねこだましがゴーストタイプにも通る点が差別化要素。<br><br>
+  <strong>3. おいかぜ枠の多様化。</strong>プテラ（使用率データに登場せず低採用）→ エルフーン（20.3%）、ファイアロー（4位）、リキキリンのトリックルーム封印（2位・3位）。S操作手段の選択が勝敗を分けている。<br><br>
+  <strong>4. ペリッパーの勝率が低い（45.5%）。</strong>使用率22%に対して大きく負け越し。雨パは使用率に見合う勝率を出せておらず、晴れパ（リザードンY）のほうが結果を出している。<br><br>
+  <strong>5. PJCS予選への示唆:</strong> 初心者はリザードンY＋エルフーン晴れ軸が安定。上級者はピクシー＋マフォクシー介護型が優勝実績あり。ドドゲザンとオオニューラはどの構築でも必須。
+</div>
+
+<div class="footer">
+  First Tour $500 大会分析 ｜ ソース: <a href="https://play.limitlesstcg.com/tournament/69c6a52bd478313a15a33fd4/standings" style="color:var(--text3)">Limitless</a> ｜ Pokémon Champions レギュレーションM-A
+</div>
+
+<script>
+const DEX={
+"マフォクシー":655,"ゲンガー":94,"フラエッテ":670,"サーナイト":282,
+"リザードン":6,"ユキメノコ":478,"カイリュー":149,"ガルーラ":115,
+"スターミー":121,"プテラ":142,"バンギラス":248,"キラフロル":970,
+"ゴルーグ":623,"オオニューラ":903,"ガオガエン":727,"ドドゲザン":983,
+"エルフーン":547,"ロトム":479,"ジャラランガ":784,"ミロカロス":350,
+"ガブリアス":445,"ペリッパー":279,"ヤバソチャ":1013,"ギルガルド":681,
+"ジュラルドン":884,"フラージェス":671,"ヌメルゴン":706,"カモネギ":865,
+"イダイトウ":902,"イッカネズミ":925,"フシギバナ":3,"ブリジュラス":1018,
+"リキキリン":981,"ドリュウズ":530
+};
+const BASE="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
+document.querySelectorAll('[data-mon]').forEach(el=>{
+const n=el.getAttribute('data-mon'),d=DEX[n];if(!d)return;
+const i=document.createElement('img');i.className='sp';i.src=BASE+d+'.png';i.alt=n;
+i.onerror=function(){this.style.display='none'};el.insertBefore(i,el.firstChild)});
+document.querySelectorAll('[data-bar]').forEach(el=>{
+const n=el.getAttribute('data-bar'),d=DEX[n];if(!d)return;
+const i=document.createElement('img');i.className='sp';i.src=BASE+d+'.png';i.alt=n;
+i.onerror=function(){this.style.display='none'};el.insertBefore(i,el.firstChild)});
+</script>
+
+</body>
+</html>
